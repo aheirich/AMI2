@@ -28,7 +28,7 @@ Compute nodes in the cluster.
 Shared memory region into which event data is delivered.
 
 ### W1, ...
-Python worker processes perform computation on the data.
+Python [worker processes](worker.md) perform computation on the data.
 
 ### C1, ...
 Python collector process assembles cumulative data.

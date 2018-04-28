@@ -1,5 +1,10 @@
-all:	toplevel.html worker.html collector.html graph_manager.html feature_store.html client.html
+sources := $(wildcard *.md)
+html := $(patsubst %.md,%.html,$(sources))
+
+all:	$(html)
 
 %.html:	%.md
 	markdown $< > $@
 
+clean:
+	rm -f $(html)
