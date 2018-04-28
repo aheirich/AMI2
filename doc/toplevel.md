@@ -31,16 +31,16 @@ Shared memory region into which event data is delivered.
 Python [worker processes](worker.md) perform computation on the data.
 
 ### C1, ...
-Python collector process assembles cumulative data.
+Python [collector process](collector.md) assembles cumulative data.
 
 ### Feature Store
-API from which clients can subscribe to data (should be dsitributed)
+API from which clients can [subscribe to data](feature_store.md) (should be distributed)
 
 ### Graph Manager
-Python processes that manipulate and optimize the computation graph
+Python [graph manager process](graph_manager.md) that manipulate and optimize the computation graph
 
 ### GUI Client
-Python process that sends requests to the graph manager and receives data from Feature store.
+Python [client process](client.md) that sends requests to the graph manager and receives data from Feature store.
 
 ### Epics
 Data communication protocal used by DOE labs for instrumentation
