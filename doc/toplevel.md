@@ -50,6 +50,8 @@ Data communication protocal used by DOE labs for instrumentation
 
 Robust to node or process failure, recover from crash
 
+scriptable, can log/control from logs/scripts
+
 multiple users can simultaneously edit the computation graph (at low rates)
 
 Scalable to clusters of any size including supercomputers
