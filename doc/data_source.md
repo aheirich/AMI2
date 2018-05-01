@@ -1,8 +1,18 @@
 # Data Source
 
+class DataSource:
+
+Every data source should inherit from the DataSource base class.
+This class provides services to push telemetry data into the local Redis where they can be accessed by Workers.
+It can optionally log data to files that can be replayed later by the FileDataSource.
+
 ## SharedMemoryDataSource
+class SharedMemoryDataSource: pulls XTC data from a region of shared memory and pushes it to the local Redis.
+The XTC data was delivered by the Data Acquisition system.
 
 ## FileDataSource
+class FileDataSource: pulls data from a set of files and pushes it to the local Redis.
+This is useful for offline replay.
 
 ## extending a new data source
-
+Data sources are extensible by inheriting from class DataSource.
