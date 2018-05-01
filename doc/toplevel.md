@@ -16,7 +16,7 @@ Clients specify the form of the Computation Graph by communicating with the Grap
 
 ## System Diagram
 
-<img src="images/AMI2_system_diagram.pdf" width=800>
+<img src="images/AMI2_system_diagram/AMI2_system_diagram.001.jpeg" width=800>
 
 ### Event1, ...
 Data delivery events from sensors, distributed round-robin to nodes.
