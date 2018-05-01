@@ -1,4 +1,0 @@
-# Collector
-
-A Python process.
-
