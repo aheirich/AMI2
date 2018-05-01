@@ -63,14 +63,14 @@ The graph definition is stored in the global Redis.
 API from which clients can [subscribe to data](feature_store.md).
 May be replicated (not distributed) in a large scale system.
 
-###Client
+### Client
 [Client processes](client.md) acquire data for visualization or control.
 #### GUI Client
 Python/Qt client process that sends requests to the Graph Manager and receives data from Feature store.
 #### Device Client
 Clients may play other roles such as device controllers.
 
-###Protocol handlers
+### Protocol handlers
 Communication between the clients, GraphManager and FeatureStore occurs over a [modular protocol](protocol.md).
 #### Epics protocol
 The Experimental Physics and Industrial Control System (EPICS) is a DOE labs protocol.
