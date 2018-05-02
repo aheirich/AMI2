@@ -76,6 +76,10 @@ Communication between the clients, GraphManager and FeatureStore occurs over a [
 The Experimental Physics and Industrial Control System (EPICS) is a DOE labs protocol.
 #### TCP/IP
 
+### Robustness Monitor
+The [Robustness Monitor](robustness.md) is a process that monitors the state of the system and restarts failed processes.
+It is in turn monitored by another component.
+
 
 ## Project Goals
 
