@@ -3,6 +3,10 @@
 AMI2 is a distributed visualization system for use with LCLS-II Free Electron Laser.
 It is a rewrite of the previous AMI package.
 
+There are two implementations:
+a [Legion based implementation](legion_design.md)
+and a [generic implementation](generic_design.md).
+
 ## Data flow
 Please see the System Diagram below.
 
