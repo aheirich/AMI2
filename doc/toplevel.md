@@ -11,8 +11,9 @@ At SLAC the SharedMemoryDataSource receives telemetry from the Data Acquisition 
 A FileDataSource drives the system in offline mode.
 The system can be extended with new data sources (e.g. xyzDataSource).
 
-The Redis distributed key-value store is used for communication among processes and to implement fault tolerance and fail over.
-A local Redis partition exists on every cluster node, while a Global Redis partition supports fail-over and sends data for consumption by clients.
+A resilient distributed in-memory storage system (E.g. Redis) is used for the control and data planes.
+Telemetry data resides in a local store within a node.
+Computational results and control signals reside in a global store.
 
 Each telemetry frame is processed by a different worker.
 Each cluster node may support multiple workers.
@@ -21,14 +22,10 @@ The cluster can be scaled to support arbitrarily high data rates.
 A worker processes a telemetry frame by feeding the data to a Computation Graph which is a series of transformations.
 The computation graph is defined by the Graph Manager according to requests from clients.
 It is implemented as a python program that is assembled and optimized by the Graph Manager.
-The result of a worker computation is stored in the Global Redis.
-
-The Feature Store provides access to worker computations in the Global Redis.
-It uses the Redis publish/subscribe protocol.
-It supports buffering over time for strip chart recording.
+Computational results are written to the global store.
 
 Clients may be GUIs, devices, or file proxies.
-Clients requests computations from the Graph Manager and subscribe to result channels from the Feature Store.
+Clients requests computations from the Graph Manager and subscribe to result channels from the global store.
 
 
 
@@ -44,24 +41,20 @@ Data delivery events from sensors, distributed round-robin to nodes via Infiniba
 ### DataSource
 [DataSources](data_source.md) provide telemetry data to the system.
 #### SharedMemoryDataSource
-Transfers incoming sensor data to the local Redis.
+Transfers incoming sensor data to the local store.
 #### FileDataSource
 Replays sensor data stored in a file.
 #### xyzDataSource
 User extended data source
 
 ### Worker
-[Worker processes](worker.md) perform computation on the data and place the results in the global Redis.
+[Workers](worker.md) execute the computation graph on the input data and write the results to the global store.
 
 
 ### Graph Manager
 [Graph manager process](graph_manager.md) manipulates and optimizes the computation graph.
 May be replicated (not distributed) in a large scale system.
-The graph definition is stored in the global Redis.
-
-### Feature Store
-API from which clients can [subscribe to data](feature_store.md).
-May be replicated (not distributed) in a large scale system.
+The graph definition is stored in the global store.
 
 ### Client
 [Client processes](client.md) acquire data for visualization or control.
@@ -71,7 +64,7 @@ Python/Qt client process that sends requests to the Graph Manager and receives d
 Clients may play other roles such as device controllers.
 
 ### Protocol handlers
-Communication between the clients, GraphManager and FeatureStore occurs over a [modular protocol](protocol.md).
+Communication between the clients and GraphManager occurs over a [modular protocol](protocol.md).
 #### Epics protocol
 The Experimental Physics and Industrial Control System (EPICS) is a DOE labs protocol.
 #### TCP/IP
@@ -79,6 +72,7 @@ The Experimental Physics and Industrial Control System (EPICS) is a DOE labs pro
 ### Robustness Monitor
 The [Robustness Monitor](robustness.md) is a process that monitors the state of the system and restarts failed processes.
 It is in turn monitored by another component.
+This guarantees that the system will stay up unless both components fail simultaneously.
 
 
 ## Project Goals
@@ -101,7 +95,7 @@ Follow well defined coding conventions, good project hygiene and testing
 
 Extensible - new clients, new GUI elements, new Computation Graph operations, new data sources
 
-Two versions, one with Legion and another without
+Two versions, [one with Legion](legion_design.md) and [one without](generic_design.md)
 
 Support Epics protocol to send data to clients, also for clients to make requests
 
