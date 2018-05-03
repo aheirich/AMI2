@@ -56,7 +56,7 @@ User extended data source
 
 
 ### Graph Manager
-[Graph manager process](graph_manager.md) manipulates and optimizes the computation graph.
+[Graph manager](graph_manager.md) manipulates and optimizes the computation graph.
 May be replicated (not distributed) in a large scale system.
 The graph definition is stored in the global store.
 
@@ -74,7 +74,7 @@ The Experimental Physics and Industrial Control System (EPICS) is a DOE labs pro
 #### TCP/IP
 
 ### Robustness Monitor
-The [Robustness Monitor](robustness.md) is a process that monitors the state of the system and restarts failed processes.
+The [Robustness Monitor](robustness.md) monitors the state of the system and restarts failed processes.
 It is in turn monitored by another component.
 This guarantees that the system will stay up unless both components fail simultaneously.
 
