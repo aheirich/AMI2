@@ -83,7 +83,7 @@ This guarantees that the system will stay up unless both components fail simulta
 
 Open Source package for Linux with an installer
 
-Robust to node or process failure, recover from crash
+[Robust to node or process failure, recover from crash](fault_tolerance.md)
 
 Scriptable, can log/control from logs/scripts
 
