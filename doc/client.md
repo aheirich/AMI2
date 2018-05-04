@@ -2,6 +2,8 @@
 
 A Python/Qt process.
 
+# Web Browser Client
+Using JavaScript visualization.
 
 # Device client
 

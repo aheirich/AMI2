@@ -2,5 +2,5 @@
 
 This is one exaple of a Javascript library for scientific visualization.
 
-<img src="08291800.pdf">
+<embed src="https://drive.google.com/viewerng/viewer?embedded=true&url=file://08291800.pdf" width="500" height="375">
 
