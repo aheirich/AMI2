@@ -1,9 +1,6 @@
 # Lexicon
 
-This is one example of a Javascript library for scientific visualization.
+Lexicon is one example of a <a href="08291800.pdf">Javascript library for scientific visualization</a>.
+(Click the link to view the paper).
 
-
-<object data="08291800.pdf" type="application/pdf" height="100%" width="100%">
-<p>Alternative text - include a link <a href="08291800.pdf">to the PDF!</a></p>
-</object>
 
