@@ -18,6 +18,8 @@ The system can be extended with new data sources (e.g. xyzDataSource).
 A resilient distributed in-memory storage system (E.g. Redis, Legion) is used for the control and data planes.
 Telemetry data resides in a local store within a node.
 Computational results and control signals reside in a global store.
+Process heartbeats are monitored and failed processes are automatically restarted.
+The process stores all volatile state in the resilient stores so it can reload that state when it restarts.
 
 Each telemetry frame is processed by a different worker.
 Each cluster node supports multiple workers, typically one per core.

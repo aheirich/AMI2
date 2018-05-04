@@ -10,6 +10,7 @@ The telemetry logical region is partitioned across the cluster nodes.
 The Graph Manager and Robustness Monitors are mapped onto one or more additional cluster nodes.
 
 Legion resilience mechanisms ensure that tasks always complete.
+Logical Regions are persisted to disk automatically and reloaded upon restart.
 A system cron job ensures that Legion is always running.
 
 The control logical regions implements a [key-value store for JSON data](key_value_lr.md).
