@@ -8,27 +8,27 @@ a [Legion based implementation](legion_design.md)
 and a [generic implementation](generic_design.md).
 
 ## Data flow
-Please see the System Diagram below.
+Please see Figure 1: system data flow.
 
 Frames of instrument telemetry enter the system through a Data Source.
-At SLAC the SharedMemoryDataSource receives telemetry from the Data Acquisition system delivered by RDMA.
+At SLAC the SharedMemoryDataSource receives XTC telemetry from the Data Acquisition system delivered by RDMA.
 A FileDataSource drives the system in offline mode.
 The system can be extended with new data sources (e.g. xyzDataSource).
 
-A resilient distributed in-memory storage system (E.g. Redis) is used for the control and data planes.
+A resilient distributed in-memory storage system (E.g. Redis, Legion) is used for the control and data planes.
 Telemetry data resides in a local store within a node.
 Computational results and control signals reside in a global store.
 
 Each telemetry frame is processed by a different worker.
-Each cluster node may support multiple workers.
+Each cluster node supports multiple workers, typically one per core.
 The cluster can be scaled to support arbitrarily high data rates.
 
 A worker processes a telemetry frame by feeding the data to a Computation Graph which is a series of transformations.
 The computation graph is defined by the Graph Manager according to requests from clients.
 It is implemented as a python program that is assembled and optimized by the Graph Manager.
-Computational results are written to the global store.
+Computational results are written by the worker to the global store.
 
-Clients may be GUIs, devices, or file proxies.
+Clients may be GUIs, web browsers, devices, or file proxies.
 Clients requests computations from the Graph Manager and subscribe to result channels from the global store.
 
 
@@ -64,6 +64,8 @@ The graph definition is stored in the global store.
 [Client processes](client.md) acquire data for visualization or control.
 #### GUI Client
 Python/Qt client process that sends requests to the Graph Manager and receives data from Feature store.
+#### Web Browser Client
+Javascript client ([Lexicon](lexicon.md), D3.js)
 #### Device Client
 Clients may play other roles such as device controllers.
 
@@ -105,11 +107,11 @@ Support Epics protocol to send data to clients, also for clients to make request
 
 "sum all", "pick 1", "sum 1" style calculations
 
-## First milestone
+## First test
 
-The first milestone is a generic use case of the most common features, driven from
+The first test is a generic use case of the most common features, driven from
 a canned example.
-This will also consitute the first test in a suite of tests.
+This should run on a cluster or on a single machine.
 
 Starting from scratch, install the software and start it running.
 Use an offline data source to drive a standard interaction.

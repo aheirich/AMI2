@@ -6,7 +6,7 @@ In the Legion design all of the components are Legion tasks except for the clien
 The stores are Legion logical regions.
 
 A custom mapper ensures that data sources and workers are mapped together on cluster nodes.
-The telemetry local region is partitioned across the cluster nodes.
+The telemetry logical region is partitioned across the cluster nodes.
 The Graph Manager and Robustness Monitors are mapped onto one or more additional cluster nodes.
 
 Legion resilience mechanisms ensure that tasks always complete.
@@ -32,13 +32,13 @@ It writes the results to the Results logical region.
 The graph manager waits for requests from clients over protocol 1.
 A request consists of a list of modifications to the computation graph, a list of desired results, or both.
 When a request arrives the graph manager checks it for validity.
-If the request is valid the graph manager writes it to the Control logical region.
+If the request is valid the graph manager 
+assembles a new computation graph and
+writes it to the Control logical region.
 
 Clients are separate processes that interact with the rest of the system through protocol libraries.
 Since these processes are not Legion tasks they cannot directly read or write logical regions.
 The details of the coupling between Legion tasks and client processes remain to be determined, and
 may be as simple as sockets.
-
-Issue: how to support persistent sockets across graph manager task instances.
 
 
