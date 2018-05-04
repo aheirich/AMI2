@@ -18,7 +18,7 @@ The control logical regions implements a [key-value store for JSON data](key_val
 ## Event flow
 
 The system is event driven and has no central thread of control.
-Interactions between components are accomplished through data passed in logical regions.
+Interactions between components are accomplished through data passed in logical regions and by futures.
 
 A data source task waits for telemetry data to become available.
 When data arrives the data source writes it to the telemetry local region.
