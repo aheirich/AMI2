@@ -35,8 +35,8 @@ GEN_GPU_SRC	?= 			# .cu files
 endif
 
 # You can modify these variables, some will be appended to by the runtime makefile
-INC_FLAGS	?=
-CC_FLAGS	?=
+INC_FLAGS	?= -I../third_party/json/include
+CC_FLAGS	?= -std=c++11
 NVCC_FLAGS	?=
 GASNET_FLAGS	?=
 LD_FLAGS	?=
