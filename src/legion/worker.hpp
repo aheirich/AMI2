@@ -11,17 +11,17 @@
 #include <stdio.h>
 
 #include "legion.h"
-using namespace legion;
+using namespace Legion;
 
 
 class Worker {
   
 public:
   Worker();
-  virtual void ~Worker();
-  void worker_task(const Task* task,
-                   const std::vector<PhysicalRegion> &regions,
-                   Context ctx, Runtime* runtime);
+  virtual ~Worker();
+  static void worker_task(const Task* task,
+                          const std::vector<PhysicalRegion> &regions,
+                          Context ctx, Runtime* runtime);
 private:
 };
 

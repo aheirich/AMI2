@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 #include "legion.h"
-using namespace legion;
+using namespace Legion;
 
 #include "data_source.hpp"
 
@@ -20,10 +20,10 @@ class SharedMemoryDataSource : public DataSource {
   
 public:
   SharedMemoryDataSource();
-  virtual void ~SharedMemoryDataSource();
-  void task(const Task* task,
-            const std::vector<PhysicalRegion> &regions,
-            Context ctx, Runtime* runtime);
+  virtual ~SharedMemoryDataSource();
+  static void task(const Task* task,
+                   const std::vector<PhysicalRegion> &regions,
+                   Context ctx, Runtime* runtime);
 private:
 };
 

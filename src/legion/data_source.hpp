@@ -11,17 +11,15 @@
 #include <stdio.h>
 
 #include "legion.h"
-using namespace legion;
+using namespace Legion;
 
 
 class DataSource {
   
 public:
   DataSource();
-  virtual void ~DataSource();
-  virtual void task(const Task* task,
-                    const std::vector<PhysicalRegion> &regions,
-                    Context ctx, Runtime* runtime) = 0;
+  virtual ~DataSource();
+
 private:
 };
 

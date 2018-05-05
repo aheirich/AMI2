@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 #include "legion.h"
-using namespace legion;
+using namespace Legion;
 
 #include "data_source.hpp"
 
@@ -20,10 +20,10 @@ class FileDataSource : DataSource {
   
 public:
   FileDataSource();
-  virtual void ~FileDataSource();
-  void task(const Task* task,
-            const std::vector<PhysicalRegion> &regions,
-            Context ctx, Runtime* runtime);
+  virtual ~FileDataSource();
+  static void task(const Task* task,
+                   const std::vector<PhysicalRegion> &regions,
+                   Context ctx, Runtime* runtime);
 private:
 };
 

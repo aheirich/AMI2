@@ -1,5 +1,5 @@
 //
-//  worker.cpp
+//  worker.cc
 //  
 //
 //  Created by Heirich, Alan on 5/3/18.
@@ -12,7 +12,7 @@ Worker::Worker() {
   
 }
 
-virtual void Worker::~Worker() {
+Worker::~Worker() {
   
 }
 

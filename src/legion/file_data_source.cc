@@ -1,5 +1,5 @@
 //
-//  file_data_source.cpp
+//  file_data_source.cc
 //  
 //
 //  Created by Heirich, Alan on 5/3/18.
@@ -11,7 +11,7 @@ FileDataSource::FileDataSource() {
   
 }
 
-virtual void FileDataSource::~FileDataSource() {
+FileDataSource::~FileDataSource() {
   
 }
 

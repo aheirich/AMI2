@@ -11,17 +11,17 @@
 #include <stdio.h>
 
 #include "legion.h"
-using namespace legion;
+using namespace Legion;
 
 
 class RobustnessMonitor {
   
 public:
   RobustnessMonitor();
-  virtual void ~RobustnessMonitor();
-  void robustness_monitor_task(const Task* task,
-                               const std::vector<PhysicalRegion> &regions,
-                               Context ctx, Runtime* runtime);
+  virtual ~RobustnessMonitor();
+  static void robustness_monitor_task(const Task* task,
+                                      const std::vector<PhysicalRegion> &regions,
+                                      Context ctx, Runtime* runtime);
 private:
 };
 

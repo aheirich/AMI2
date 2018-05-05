@@ -11,17 +11,17 @@
 #include <stdio.h>
 
 #include "legion.h"
-using namespace legion;
+using namespace Legion;
 
 
 class GraphManager {
   
 public:
   GraphManager();
-  virtual void ~GraphManager();
-  void graph_manager_task(const Task* task,
-                          const std::vector<PhysicalRegion> &regions,
-                          Context ctx, Runtime* runtime);
+  virtual ~GraphManager();
+  static void graph_manager_task(const Task* task,
+                                 const std::vector<PhysicalRegion> &regions,
+                                 Context ctx, Runtime* runtime);
 private:
 };
 

@@ -1,5 +1,5 @@
 //
-//  shared_memory_data_source.cpp
+//  shared_memory_data_source.cc
 //  
 //
 //  Created by Heirich, Alan on 5/3/18.
@@ -11,7 +11,7 @@ SharedMemoryDataSource::SharedMemoryDataSource() {
   
 }
 
-virtual void SharedMemoryDataSource::~SharedMemoryDataSource() {
+SharedMemoryDataSource::~SharedMemoryDataSource() {
   
 }
 

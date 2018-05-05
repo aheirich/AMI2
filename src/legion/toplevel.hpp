@@ -9,7 +9,7 @@
 #define toplevel_hpp
 
 #include "legion.h"
-using namespace legion;
+using namespace Legion;
 
 #include <stdio.h>
 

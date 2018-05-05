@@ -1,5 +1,5 @@
 //
-//  data_source.cpp
+//  data_source.cc
 //  
 //
 //  Created by Heirich, Alan on 5/3/18.
@@ -11,14 +11,7 @@ DataSource::DataSource() {
   
 }
 
-virtual void DataSource::~DataSource() {
-  
-}
-
-
-void DataSource::task(const Task* task,
-                      const std::vector<PhysicalRegion> &regions,
-                      Context ctx, Runtime* runtime) {
+DataSource::~DataSource() {
   
 }
 

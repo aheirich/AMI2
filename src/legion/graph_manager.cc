@@ -1,5 +1,5 @@
 //
-//  graph_manager.cpp
+//  graph_manager.cc
 //  
 //
 //  Created by Heirich, Alan on 5/3/18.
@@ -12,7 +12,7 @@ GraphManager::GraphManager() {
   
 }
 
-virtual void GraphManager::~GraphManager() {
+GraphManager::~GraphManager() {
   
 }
 
