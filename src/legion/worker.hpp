@@ -13,8 +13,9 @@
 #include "legion.h"
 using namespace Legion;
 
+#include "robust_task.hpp"
 
-class Worker {
+class Worker : public RobustTask {
   
 public:
   Worker();

@@ -21,4 +21,7 @@ void Worker::worker_task(const Task* task,
                          const std::vector<PhysicalRegion> &regions,
                          Context ctx, Runtime* runtime) {
   
+  deserializeFromStore();
+  
+  serializeToStore();
 }

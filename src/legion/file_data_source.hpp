@@ -16,7 +16,7 @@ using namespace Legion;
 #include "data_source.hpp"
 
 
-class FileDataSource : DataSource {
+class FileDataSource : public DataSource {
   
 public:
   FileDataSource();

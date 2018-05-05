@@ -13,8 +13,9 @@
 #include "legion.h"
 using namespace Legion;
 
+#include "robust_task.hpp"
 
-class GraphManager {
+class GraphManager : public RobustTask {
   
 public:
   GraphManager();

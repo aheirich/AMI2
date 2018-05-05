@@ -22,4 +22,7 @@ void RobustnessMonitor::robustness_monitor_task(const Task* task,
                                                 const std::vector<PhysicalRegion> &regions,
                                                 Context ctx, Runtime* runtime) {
   
+  deserializeFromStore();
+  
+  serializeToStore();
 }

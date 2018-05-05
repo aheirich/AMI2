@@ -13,8 +13,10 @@
 #include "legion.h"
 using namespace Legion;
 
+#include "robust_task.hpp"
 
-class DataSource {
+
+class DataSource : public RobustTask {
   
 public:
   DataSource();
