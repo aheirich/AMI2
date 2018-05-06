@@ -1,6 +1,6 @@
 //
 //  robust_task.hpp
-//  
+//
 //
 //  Created by Heirich, Alan on 5/4/18.
 //
@@ -23,12 +23,16 @@ public:
   virtual ~RobustTask();
   
 protected:
-  static void deserializeFromStore(const Task* task);
-  static void serializeToStore(const Task* task);
+  static void deserializeFromStore(const Task* task,
+                                   const std::vector<PhysicalRegion> &regions,
+                                   Context ctx, Runtime* runtime);
+  static void serializeToStore(const Task* task,
+                               const std::vector<PhysicalRegion> &regions,
+                               Context ctx, Runtime* runtime);
   virtual void serialize(KeyValueStore::json& j){ }
   virtual void deserialize(KeyValueStore::json& j){ }
   void taskIs(RobustTask* task){ mRobustTask = task; }
-
+  
 private:
   static std::string key(const Task* task);
   static ControlStore* mControlStore;
@@ -37,3 +41,4 @@ private:
 
 
 #endif /* robust_task_hpp */
+

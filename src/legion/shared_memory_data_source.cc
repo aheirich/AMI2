@@ -22,6 +22,6 @@ void SharedMemoryDataSource::task(const Task* task,
   
   deserializeFromStore(task);
   
-  serializeToStore(task);
+  serializeToStore(task, regions, ctx, runtime);
 }
 

@@ -24,5 +24,5 @@ void RobustnessMonitor::robustness_monitor_task(const Task* task,
   
   deserializeFromStore(task);
   
-  serializeToStore(task);
+  serializeToStore(task, regions, ctx, runtime);
 }

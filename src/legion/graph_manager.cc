@@ -20,7 +20,7 @@ GraphManager::~GraphManager() {
 void GraphManager::graph_manager_task(const Task* task,
                                       const std::vector<PhysicalRegion> &regions,
                                       Context ctx, Runtime* runtime) {
-  deserializeFromStore(task);
+  deserializeFromStore(task, regions, ctx, runtime);
   
-  serializeToStore(task);
+  serializeToStore(task, regions, ctx, runtime);
 }

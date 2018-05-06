@@ -25,3 +25,9 @@ void KeyValueStore::put(std::string key, std::string value) {
 std::string KeyValueStore::get(std::string) {
   return "";
 }
+
+
+KeyValueStore::IndexCoordinate KeyValueStore::keyToIndexCoordinate(std::string key) {
+  return 0;
+}
+

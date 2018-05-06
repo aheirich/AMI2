@@ -24,11 +24,14 @@ class KeyValueStore : public StringSerdez {
 public:
   KeyValueStore();
   virtual ~KeyValueStore();
-  using json = nlohmann::json;
   void put(std::string key, std::string value);
   std::string get(std::string key);
 
+  using json = nlohmann::json;
+  typedef unsigned long int IndexCoordinate;
+  
 private:
+  IndexCoordinate keyToIndexCoordinate(std::string key);
   StringSerdez* mStringSerdez;
 };
 
