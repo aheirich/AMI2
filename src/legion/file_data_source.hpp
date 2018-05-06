@@ -24,7 +24,12 @@ public:
   static void task(const Task* task,
                    const std::vector<PhysicalRegion> &regions,
                    Context ctx, Runtime* runtime);
+protected:
+  void serialize(KeyValueStore::json& j);
+  void deserialize(KeyValueStore::json& j);
+  
 private:
+  int memberVariable;//placeholder
 };
 
 

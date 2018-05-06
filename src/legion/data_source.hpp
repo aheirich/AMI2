@@ -21,7 +21,7 @@ class DataSource : public RobustTask {
 public:
   DataSource();
   virtual ~DataSource();
-
+  
 private:
 };
 

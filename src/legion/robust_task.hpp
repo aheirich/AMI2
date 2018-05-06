@@ -13,7 +13,7 @@
 #include "legion.h"
 using namespace Legion;
 
-#include "key_value_store.hpp"
+#include "control_store.hpp"
 
 
 class RobustTask {
@@ -21,10 +21,18 @@ class RobustTask {
 public:
   RobustTask();
   virtual ~RobustTask();
-  static void deserializeFromStore();
-  static void serializeToStore();
+  
+protected:
+  static void deserializeFromStore(const Task* task);
+  static void serializeToStore(const Task* task);
+  virtual void serialize(KeyValueStore::json& j){ }
+  virtual void deserialize(KeyValueStore::json& j){ }
+  void taskIs(RobustTask* task){ mRobustTask = task; }
 
 private:
+  static std::string key(const Task* task);
+  static ControlStore* mControlStore;
+  static RobustTask* mRobustTask;
 };
 
 

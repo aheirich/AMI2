@@ -11,10 +11,17 @@
 
 
 KeyValueStore::KeyValueStore() {
-  
+  mStringSerdez = new StringSerdez();
 }
 
 KeyValueStore::~KeyValueStore() {
+  delete mStringSerdez;
+}
+
+void KeyValueStore::put(std::string key, std::string value) {
   
 }
 
+std::string KeyValueStore::get(std::string) {
+  return "";
+}

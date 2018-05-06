@@ -13,18 +13,23 @@
 #include "legion.h"
 using namespace Legion;
 
+#include "string_serdez.hpp"
+
 #include <nlohmann/json.hpp>
 // for convenience
-using json = nlohmann::json;
 
 
-class KeyValueStore {
+class KeyValueStore : public StringSerdez {
   
 public:
   KeyValueStore();
   virtual ~KeyValueStore();
+  using json = nlohmann::json;
+  void put(std::string key, std::string value);
+  std::string get(std::string key);
 
 private:
+  StringSerdez* mStringSerdez;
 };
 
 #endif /* key_value_store_hpp */

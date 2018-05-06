@@ -20,8 +20,8 @@ void SharedMemoryDataSource::task(const Task* task,
                                   const std::vector<PhysicalRegion> &regions,
                                   Context ctx, Runtime* runtime) {
   
-  deserializeFromStore();
+  deserializeFromStore(task);
   
-  serializeToStore();
+  serializeToStore(task);
 }
 
