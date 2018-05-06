@@ -20,6 +20,11 @@ The control logical regions implements a [key-value store for JSON data](key_val
 The system is event driven and has no central thread of control.
 Interactions between components are accomplished through data passed in logical regions and by futures.
 
+### Class hierarchy
+
+<img src="images/AMI2_Legion_Class_Hierarchy/AMI2_Legion_Class_Hierarchy.001.jpeg" width=800>
+
+
 A data source task waits for telemetry data to become available.
 When data arrives the data source writes it to the telemetry local region.
 It updates the Control logical region with changed volatile state and exits returning a future.
