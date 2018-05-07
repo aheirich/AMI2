@@ -22,7 +22,8 @@ public:
   virtual ~TopLevelTask(){ }
   
 private:
-  
+  static int memberVariable;//placeholder
+
   static bool topLevelStateIsChanged() {
     return false;
   }
@@ -37,22 +38,30 @@ private:
   }
   
   static bool timeToMonitor() {
-    
+    return false;
   }
   
   static void launchRobustnessMonitorTask() {
     
   }
   
+  void serialize(KeyValueStore::json& j) {
+    j["memberVariable"] = memberVariable; //placeholder
+  }
   
+  void deserialize(KeyValueStore::json& j) {
+    memberVariable = j["memberVariable"]; //placeholder
+  }
+
   
+public:
   static void top_level_task(const Task* task,
                       const std::vector<PhysicalRegion> &regions,
                       Context ctx, Runtime* runtime) {
     
     do {
       if(topLevelStateIsChanged()) {
-        KeyValueStore::deserialize(task, regions, ctx, runtime);
+        deserializeFromStore(task, regions, ctx, runtime);
       }
       
       launchTelemetryProcessingTasks();
@@ -61,6 +70,9 @@ private:
       if(timeToMonitor()) {
         launchRobustnessMonitorTask();
       }
+      
+      serializeToStore(task, regions, ctx, runtime);
+      
     } while(true);
     
   }

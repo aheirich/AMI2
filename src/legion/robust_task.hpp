@@ -29,14 +29,11 @@ protected:
   static void serializeToStore(const Task* task,
                                const std::vector<PhysicalRegion> &regions,
                                Context ctx, Runtime* runtime);
-  virtual void serialize(KeyValueStore::json& j){ }
-  virtual void deserialize(KeyValueStore::json& j){ }
-  void taskIs(RobustTask* task){ mRobustTask = task; }
   
 private:
   static std::string key(const Task* task);
-  static ControlStore* mControlStore;
-  static RobustTask* mRobustTask;
+  static void serialize(KeyValueStore::json& j){};
+  static void deserialize(KeyValueStore::json& j){};
 };
 
 

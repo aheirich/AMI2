@@ -7,6 +7,8 @@
 
 #include "file_data_source.hpp"
 
+int FileDataSource::memberVariable;//placeholder
+
 FileDataSource::FileDataSource() {
   
 }
@@ -19,7 +21,7 @@ FileDataSource::~FileDataSource() {
 void FileDataSource::task(const Task* task,
                           const std::vector<PhysicalRegion> &regions,
                           Context ctx, Runtime* runtime) {
-  deserializeFromStore(task);
+  deserializeFromStore(task, regions, ctx, runtime);
   
   serializeToStore(task, regions, ctx, runtime);
 }
