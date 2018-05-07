@@ -4,8 +4,9 @@ Communication between clients and the system occurs through modular protocol han
 class ProtocolHandler is the base class.
 
 ## EPICS
-Experimental Physics and Industrial Control System (EPICS) is a DOE supported protocol.
+<a href="https://epics.anl.gov">Experimental Physics and Industrial Control System</a> (EPICS) is a DOE supported protocol.
 class EPICSProtocolHandler: supports EPICS
+
 
 ## TCP/IP
 class TCPIPProtocolHandler: provides support for raw socket communication.

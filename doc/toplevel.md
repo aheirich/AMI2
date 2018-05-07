@@ -3,9 +3,17 @@
 AMI2 is a distributed visualization system for use with LCLS-II Free Electron Laser.
 It is a rewrite of the previous AMI package.
 
-There are two implementations:
-a [Legion based implementation](legion_design.md)
-and a [generic implementation](generic_design.md).
+There are two designs:
+a [Legion based design](legion_design.md)
+and a [generic design](generic_design.md).
+The reason for two designs is that Legion is currently an experimental open source programming platform without
+a guarantee of long term support.
+The generic design will incorporate existing stable open source software packages where appropriate.
+
+[Clients](client.md) interact with the rest of the system through communication protocols and
+are oblivious to the difference between the two designs.
+
+[Testing](testing.md) is described here.
 
 ## Data flow
 Please see Figure 1: system data flow.
@@ -64,12 +72,9 @@ The graph definition is stored in the global store.
 
 ### Client
 [Client processes](client.md) acquire data for visualization or control.
-#### GUI Client
-Python/Qt client process that sends requests to the Graph Manager and receives data from Feature store.
-#### Web Browser Client
-Javascript client ([Lexicon](lexicon.md), D3.js)
-#### Device Client
-Clients may play other roles such as device controllers.
+Clients may be based on Python/Qt, Web Browsers or Devices.
+A FileClient is mainly useful for testing.
+
 
 ### Protocol handlers
 Communication between the clients and GraphManager occurs over a [modular protocol](protocol.md).
@@ -87,7 +92,7 @@ This guarantees that the system will stay up unless both components fail simulta
 
 Open Source package for Linux with an installer
 
-[Robust to node or process failure, recover from crash](fault_tolerance.md)
+[Robust to node or process failure, recover from crash](robust.md)
 
 Scriptable, can log/control from logs/scripts
 
@@ -109,18 +114,6 @@ Support Epics protocol to send data to clients, also for clients to make request
 
 "sum all", "pick 1", "sum 1" style calculations
 
-## First test
 
-The first test is a generic use case of the most common features, driven from
-a canned example.
-This should run on a cluster or on a single machine.
-
-Starting from scratch, install the software and start it running.
-Use an offline data source to drive a standard interaction.
-Open a GUI client that acquires 2D sensor image data.
-Select a region from the sensor image.
-Plot the mean pixel value of this region across time in a strip chart recorder.
-Verify the data visualization is corrent.
-Shut the system down cleanly.
 
 
