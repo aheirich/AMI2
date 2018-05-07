@@ -22,13 +22,7 @@ public:
   virtual ~TopLevelTask(){ }
   
 private:
-  static int memberVariable;//placeholder
 
-  static bool topLevelStateIsChanged() {
-    return false;
-  }
-  
-  
   static void launchTelemetryProcessingTasks() {
     // index launch: current data source, worker
   }
@@ -45,13 +39,6 @@ private:
     
   }
   
-  void serialize(KeyValueStore::json& j) {
-    j["memberVariable"] = memberVariable; //placeholder
-  }
-  
-  void deserialize(KeyValueStore::json& j) {
-    memberVariable = j["memberVariable"]; //placeholder
-  }
 
   
 public:
@@ -60,9 +47,6 @@ public:
                       Context ctx, Runtime* runtime) {
     
     do {
-      if(topLevelStateIsChanged()) {
-        deserializeFromStore(task, regions, ctx, runtime);
-      }
       
       launchTelemetryProcessingTasks();
       launchGraphManagerTask();
@@ -70,8 +54,6 @@ public:
       if(timeToMonitor()) {
         launchRobustnessMonitorTask();
       }
-      
-      serializeToStore(task, regions, ctx, runtime);
       
     } while(true);
     

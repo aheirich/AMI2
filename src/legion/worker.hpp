@@ -25,9 +25,6 @@ public:
                           Context ctx, Runtime* runtime);
   
 private:
-  static void serialize(KeyValueStore::json& j);
-  static void deserialize(KeyValueStore::json& j);
-  static int memberVariable;//placeholder
 };
 
 #endif /* worker_hpp */

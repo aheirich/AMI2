@@ -7,7 +7,6 @@
 
 #include "graph_manager.hpp"
 
-int GraphManager::memberVariable;//placeholder
 
 GraphManager::GraphManager() {
   
@@ -21,15 +20,7 @@ GraphManager::~GraphManager() {
 void GraphManager::graph_manager_task(const Task* task,
                                       const std::vector<PhysicalRegion> &regions,
                                       Context ctx, Runtime* runtime) {
-  deserializeFromStore(task, regions, ctx, runtime);
-  
-  serializeToStore(task, regions, ctx, runtime);
+
 }
 
-void GraphManager::serialize(KeyValueStore::json& j) {
-  j["memberVariable"] = memberVariable; //placeholder
-}
 
-void GraphManager::deserialize(KeyValueStore::json& j) {
-  memberVariable = j["memberVariable"]; //placeholder
-}

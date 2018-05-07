@@ -21,18 +21,3 @@ std::string RobustTask::key(const Task* task) {
 }
 
 
-void RobustTask::deserializeFromStore(const Task* task,
-                                      const std::vector<PhysicalRegion> &regions,
-                                      Context ctx, Runtime* runtime) {
-  
-}
-
-void RobustTask::serializeToStore(const Task* task,
-                                  const std::vector<PhysicalRegion> &regions,
-                                  Context ctx, Runtime* runtime) {
-  ControlStore::json j;
-  //mRobustTask->serialize(j);
-  std::string s = j.dump();
-  //mControlStore->put(key(task), s);
-}
-
