@@ -1,9 +1,9 @@
-# Generic design
+# Redis design
 
 <img src="images/AMI2_system_diagram/AMI2_system_diagram.003.jpeg" width=800>
 
-In the generic design all of the components are separate processes.
-The stores are implemented by a distributed resilient in-memory database like Redis.
+In the Redis design all of the components are separate processes.
+The stores are implemented by the distributed resilient in-memory database Redis.
 A local telemetry Redis runs privately on each node to support telemtry processing.
 A global distributed Redis runs across the cluster to provide data to manage Control and Results.
 
@@ -12,13 +12,17 @@ Workers subscribe to channels from the telemetry Redis.
 When a worker gets a telemetry frame it checks the Control Redis to see if there is a new computation graph.
 If there is a new graph the worker compiles it.
 Then the worker runs the computation graph on the telemetry frame.
-The worker writes the results to the Result Redis.
+The worker passes the results to a Collector.
+
+Collectors filter and buffer output from the workers and write the results to the Result store.
+Collectors execute a collector graph that is similar to the computation graph.
+Collectors reduce the data rate to the Heartbeat Rate that is suitable for dispaly on clients.
 
 The graph manager waits for requests from clients over protocol 1.
-A request consists of a list of modifications to the computation graph, a list of desired results, or both.
+A request consists of a list of modifications to one of the graphs, a list of desired results, or both.
 When a request arrives the graph manager checks it for validity.
 If the request is valid the graph manager 
-assembles a new computation graph and
+assembles a new graph and
 writes it to the
 Control Redis.
 

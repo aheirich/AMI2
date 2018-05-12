@@ -33,13 +33,21 @@ The future triggers a worker task.
 The worker task first checks the Control logical region for a new computation graph.
 If there is a new graph the worker compiles it.
 The worker runs the compiled computation graph over the telemetry data.
-It writes the results to the Results logical region.
+It returns the result as a future.
+
+The future triggers a Collector task.
+Collectors filter and buffer output from the workers and write the results to th
+the Result logical region.
+Collectors execute a collector graph that is similar to the computation graph.
+Collectors reduce the data rate to the Heartbeat Rate that is suitable for dispa
+ly on clients.
+
 
 The graph manager waits for requests from clients over protocol 1.
-A request consists of a list of modifications to the computation graph, a list of desired results, or both.
+A request consists of a list of modifications to one of the graphs, a list of desired results, or both.
 When a request arrives the graph manager checks it for validity.
 If the request is valid the graph manager 
-assembles a new computation graph and
+assembles a new graph and
 writes it to the Control logical region.
 
 Clients are separate processes that interact with the rest of the system through protocol libraries.

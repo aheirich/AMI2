@@ -5,10 +5,10 @@ It is a rewrite of the previous AMI package.
 
 There are two designs:
 a [Legion based design](legion_design.md)
-and a [generic design](generic_design.md).
+and a [Redis based design](redis_design.md).
 The reason for two designs is that Legion is currently an experimental open source programming platform without
 a guarantee of long term support.
-The generic design will incorporate existing stable open source software packages where appropriate.
+The Redis design will incorporate existing stable open source software packages where appropriate.
 
 [Clients](client.md) interact with the rest of the system through communication protocols and
 are oblivious to the difference between the two designs.
@@ -33,10 +33,21 @@ Each telemetry frame is processed by a different worker.
 Each cluster node supports multiple workers, typically one per core.
 The cluster can be scaled to support arbitrarily high data rates.
 
-A worker processes a telemetry frame by feeding the data to a Computation Graph which is a series of transformations.
+A worker processes a telemetry frame by feeding the data to a computatiog graph which is a series of transformations.
 The computation graph is defined by the Graph Manager according to requests from clients.
 It is implemented as a python program that is assembled and optimized by the Graph Manager.
-Computational results are written by the worker to the global store.
+The program can compute sums of data across frames.
+The worker sends outputs of the computation graph to the Collector.
+
+A Collector receives outputs from a set of workers.
+It filters and buffers the outputs according to a collector graph that is similar to the computation graph.
+The collector graph is implemented as a python program and is maintained by the Graph Manager in response to client requests.
+
+The purpose of the collector graph is to buffer and filter data before passing it to the Result store.
+The collector graph reduces the data rate from the workers to the Heartbeat Rate of the system.
+The Heartbeat Rate is the perceptual thershold of 20 Hz.
+This is the rate at which the Result Store is updated and also the Clients.
+
 
 Clients may be GUIs, web browsers, devices, or file proxies.
 Clients requests computations from the Graph Manager and subscribe to result channels from the global store.
@@ -62,8 +73,12 @@ Replays sensor data stored in a file.
 User extended data source
 
 ### Worker
-[Workers](worker.md) execute the computation graph on the input data and write the results to the global store.
+[Workers](worker.md) execute the computation graph on the telemetry data and send the results to a collector.
 
+
+### Collector
+[Collectors](collector.md) execute the collector graph on worker outputs and writes the results to the global store.
+Collectors filter and buffer worker outputs and reduce the data rate to the Heartbeat Rate.
 
 ### Graph Manager
 [Graph manager](graph_manager.md) manipulates and optimizes the computation graph.
@@ -108,10 +123,11 @@ Follow well defined coding conventions, good project hygiene and testing
 
 Extensible - new clients, new GUI elements, new Computation Graph operations, new data sources
 
-Two versions, [one with Legion](legion_design.md) and [one without](generic_design.md)
+Two versions, [one with Legion](legion_design.md) and [one with Redis](redis_design.md)
 
 Support Epics protocol to send data to clients, also for clients to make requests
 
+Support operations across time:
 "sum all", "pick 1", "sum 1" style calculations
 
 

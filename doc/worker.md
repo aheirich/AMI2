@@ -1,9 +1,9 @@
-# Worker process
+# Worker 
 
 class Worker:
 
 The purpose of the worker is to apply the current computation graph to a set of telemetry data newly acquired from the Telemetry store.
-The results are written to the Result store.
+The results are passed to a Collector.
 
 The computation graph is a python program.
 Clients add operations to the graph by submitting requests to the GraphManager.
