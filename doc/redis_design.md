@@ -16,7 +16,7 @@ The worker passes the results to a Collector.
 
 Collectors filter and buffer output from the workers and write the results to the Result store.
 Collectors execute a collector graph that is similar to the computation graph.
-Collectors reduce the data rate to the Heartbeat Rate that is suitable for dispaly on clients.
+Collectors reduce the data rate to the Heartbeat Rate that is suitable for display on clients.
 
 The graph manager waits for requests from clients over protocol 1.
 A request consists of a list of modifications to one of the graphs, a list of desired results, or both.

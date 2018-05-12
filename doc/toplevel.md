@@ -33,7 +33,7 @@ Each telemetry frame is processed by a different worker.
 Each cluster node supports multiple workers, typically one per core.
 The cluster can be scaled to support arbitrarily high data rates.
 
-A worker processes a telemetry frame by feeding the data to a computatiog graph which is a series of transformations.
+A worker processes a telemetry frame by feeding the data to a computation graph which is a series of transformations.
 The computation graph is defined by the Graph Manager according to requests from clients.
 It is implemented as a python program that is assembled and optimized by the Graph Manager.
 The program can compute sums of data across frames.
@@ -45,7 +45,7 @@ The collector graph is implemented as a python program and is maintained by the 
 
 The purpose of the collector graph is to buffer and filter data before passing it to the Result store.
 The collector graph reduces the data rate from the workers to the Heartbeat Rate of the system.
-The Heartbeat Rate is the perceptual thershold of 20 Hz.
+The Heartbeat Rate is the perceptual threshold of 20 Hz.
 This is the rate at which the Result Store is updated and also the Clients.
 
 
