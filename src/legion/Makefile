@@ -29,7 +29,7 @@ ALT_MAPPERS     ?= 0		# Include alternative mappers (not recommended)
 # Put the binary file name here
 OUTFILE		?= AMI2
 # List all the application source files here
-GEN_SRC		?= toplevel.cc worker.cc data_source.cc shared_memory_data_source.cc file_data_source.cc graph_manager.cc robustness_monitor.cc robust_task.cc key_value_store.cc telemetry_store.cc result_store.cc control_store.cc ami2_mapper.cc
+GEN_SRC		?= toplevel.cc worker.cc collector.cc data_source.cc shared_memory_data_source.cc file_data_source.cc graph_manager.cc robustness_monitor.cc robust_task.cc key_value_store.cc telemetry_store.cc result_store.cc control_store.cc ami2_mapper.cc
 ifeq ($(strip $(USE_CUDA)),1)
 GEN_GPU_SRC	?= 			# .cu files
 endif

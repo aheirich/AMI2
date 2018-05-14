@@ -14,6 +14,7 @@
 #include "robustness_monitor.hpp"
 #include "control_store.hpp"
 #include "robust_task.hpp"
+#include "collector.hpp"
 
 
 class TopLevelTask : public RobustTask {
@@ -67,6 +68,7 @@ static void preregisterTasks() {
   TaskVariantRegistrar registrar(TOP_LEVEL_TASK, "top_level_task");
   Runtime::preregister_task_variant<TopLevelTask::top_level_task>(registrar, "top_level_task");
   Runtime::preregister_task_variant<Worker::worker_task>(registrar, "worker_task");
+  Runtime::preregister_task_variant<Collector::collector_task>(registrar, "collector_task");
   Runtime::preregister_task_variant<SharedMemoryDataSource::task>(registrar, "shared_memory_data_source_task");
   Runtime::preregister_task_variant<FileDataSource::task>(registrar, "file_data_source_task");
   Runtime::preregister_task_variant<GraphManager::graph_manager_task>(registrar, "graph_manager_task");
