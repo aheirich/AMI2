@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:src/legion/main.cpp">
+   </FileRef>
+   <FileRef
       location = "group:doc">
    </FileRef>
    <FileRef

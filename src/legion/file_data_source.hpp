@@ -8,6 +8,8 @@
 #ifndef file_data_source_hpp
 #define file_data_source_hpp
 
+#include <iostream>
+#include <fstream>
 #include <stdio.h>
 
 #include "legion.h"
@@ -21,11 +23,20 @@ class FileDataSource : public DataSource {
 public:
   FileDataSource();
   virtual ~FileDataSource();
+  void selectFileDataSource(std::string filePathBase);
   static void task(const Task* task,
                    const std::vector<PhysicalRegion> &regions,
                    Context ctx, Runtime* runtime);
 private:
-  static int memberVariable;//placeholder
+  static bool telemetryDataExists();
+  static void writeTelemetryDataToRegion();
+  static void openFileDataSource(std::string base);
+  static std::string dataSourceFileName(std::string base);
+
+  static std::string mFilePathBase;
+  static std::ifstream mInputFile;
+  static bool mOpenedDataSource;
+  static bool mSelectedDataSource;
 };
 
 
