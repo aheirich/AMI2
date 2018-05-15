@@ -9,7 +9,6 @@
 
 
 Worker::Worker() {
-  
 }
 
 Worker::~Worker() {
