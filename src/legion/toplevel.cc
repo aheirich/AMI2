@@ -27,16 +27,24 @@ IndexSpace TopLevelTask::mTelemetryIndexSpace;
 FieldSpace TopLevelTask::mTelemetryFieldSpace;
 LogicalRegion TopLevelTask::mTelemetryRegion;
 LogicalPartition TopLevelTask::mTelemetryLogicalPartition;
+std::vector<FieldID> TopLevelTask::mTelemetryPersistentFields;
+std::vector<FieldID> TopLevelTask::mTelemetryShadowFields;
 
 IndexSpace TopLevelTask::mResultIndexSpace;
 FieldSpace TopLevelTask::mResultFieldSpace;
 LogicalRegion TopLevelTask::mResultRegion;
 LogicalPartition TopLevelTask::mResultLogicalPartition;
+std::vector<FieldID> TopLevelTask::mResultPersistentFields;
+std::vector<FieldID> TopLevelTask::mResultShadowFields;
 
 IndexSpace TopLevelTask::mControlIndexSpace;
 FieldSpace TopLevelTask::mControlFieldSpace;
 LogicalRegion TopLevelTask::mControlRegion;
 LogicalPartition TopLevelTask::mControlLogicalPartition;
+std::vector<FieldID> TopLevelTask::mControlPersistentFields;
+std::vector<FieldID> TopLevelTask::mControlShadowFields;
+
+
 
 TopLevelTask::TopLevelTask(){
   mDataSource = FILE_DATA_SOURCE_TASK;
@@ -49,55 +57,81 @@ TopLevelTask::~TopLevelTask(){
 
 
 void TopLevelTask::createTelemetryFieldSpace(Context ctx, Runtime* runtime,
-                                             FieldSpace& fieldSpace) {
+                                             FieldSpace& fieldSpace,
+                                             std::vector<FieldID>& persistentFields,
+                                             std::vector<FieldID>& shadowFields) {
   fieldSpace = runtime->create_field_space(ctx);
   FieldAllocator allocator = runtime->create_field_allocator(ctx, fieldSpace);
   RegionFieldEnum fieldId;
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), TELEMETRY_TIMESTAMP);
   assert(fieldId == TELEMETRY_TIMESTAMP);
+  fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), TELEMETRY_TIMESTAMP_);
+  assert(fieldId == TELEMETRY_TIMESTAMP_);
+  persistentFields.push_back(TELEMETRY_TIMESTAMP_);
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), TELEMETRY_DATA);
   assert(fieldId == TELEMETRY_DATA);
+  fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), TELEMETRY_DATA_);
+  assert(fieldId == TELEMETRY_DATA_);
+  shadowFields.push_back(TELEMETRY_DATA_);
 }
 
 
 void TopLevelTask::createResultFieldSpace(Context ctx, Runtime* runtime,
-                                          FieldSpace& fieldSpace) {
+                                          FieldSpace& fieldSpace,
+                                          std::vector<FieldID>& persistentFields,
+                                          std::vector<FieldID>& shadowFields) {
   fieldSpace = runtime->create_field_space(ctx);
   FieldAllocator allocator = runtime->create_field_allocator(ctx, fieldSpace);
   RegionFieldEnum fieldId;
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), RESULT_TIMESTAMP);
   assert(fieldId == RESULT_TIMESTAMP);
+  fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), RESULT_TIMESTAMP_);
+  assert(fieldId == RESULT_TIMESTAMP_);
+  persistentFields.push_back(RESULT_TIMESTAMP_);
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), RESULT_DATA);
   assert(fieldId == RESULT_DATA);
+  fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), RESULT_DATA_);
+  assert(fieldId == RESULT_DATA_);
+  shadowFields.push_back(RESULT_DATA_);
 }
 
 
 void TopLevelTask::createControlFieldSpace(Context ctx, Runtime* runtime,
-                                          FieldSpace& fieldSpace) {
+                                           FieldSpace& fieldSpace,
+                                           std::vector<FieldID>& persistentFields,
+                                           std::vector<FieldID>& shadowFields) {
   fieldSpace = runtime->create_field_space(ctx);
   FieldAllocator allocator = runtime->create_field_allocator(ctx, fieldSpace);
   RegionFieldEnum fieldId;
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), CONTROL_TIMESTAMP);
   assert(fieldId == CONTROL_TIMESTAMP);
+  fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), CONTROL_TIMESTAMP_);
+  assert(fieldId == CONTROL_TIMESTAMP_);
+  persistentFields.push_back(CONTROL_TIMESTAMP_);
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), CONTROL_DATA);
   assert(fieldId == CONTROL_DATA);
+  fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), CONTROL_DATA_);
+  assert(fieldId == CONTROL_DATA_);
+  shadowFields.push_back(CONTROL_DATA_);
 }
 
 
 void TopLevelTask::createLogicalRegionWithPartition(Context ctx, Runtime* runtime, std::string name,
                                                     unsigned numEntities,
-                                                    void (*createFieldSpace)(Context ctx, Runtime* runtime, FieldSpace& fieldSpace),
+                                                    void (*createFieldSpace)(Context ctx, Runtime* runtime, FieldSpace& fieldSpace,                                              std::vector<FieldID>& persistentFields, std::vector<FieldID>& shadowFields),
                                                     IndexSpace& regionIndexSpace,
                                                     FieldSpace& regionFieldSpace,
                                                     LogicalRegion& region,
-                                                    LogicalPartition& regionPartition
+                                                    LogicalPartition& regionPartition,
+                                                    std::vector<FieldID>& regionPersistentFields,
+                                                    std::vector<FieldID>& regionShadowFields
                                                     ) {
   Point<2> low = { 0, 0 };
   Point<2> high = { numEntities - 1, MAX_INDEX_POINTS_PER_ENTITY - 1 };
   Rect<2> regionRect(low, high);
   regionIndexSpace = runtime->create_index_space(ctx, regionRect);
   runtime->attach_name(regionIndexSpace, (name + "IndexSpace").c_str());
-  createFieldSpace(ctx, runtime, regionFieldSpace);
+  createFieldSpace(ctx, runtime, regionFieldSpace, regionPersistentFields, regionShadowFields);
   runtime->attach_name(regionFieldSpace, (name + "FieldSpace").c_str());
   region = runtime->create_logical_region(ctx, regionIndexSpace, regionFieldSpace);
   runtime->attach_name(region, name.c_str());
@@ -105,13 +139,13 @@ void TopLevelTask::createLogicalRegionWithPartition(Context ctx, Runtime* runtim
 }
 
 
+
 void TopLevelTask::createTelemetryLogicalRegion(Context ctx, Runtime* runtime, unsigned numEntities) {
   
   createLogicalRegionWithPartition(ctx, runtime, std::string("telemetry"), numEntities,
                                    createTelemetryFieldSpace, mTelemetryIndexSpace,
                                    mTelemetryFieldSpace, mTelemetryRegion,
-                                   mTelemetryLogicalPartition);
-  
+                                   mTelemetryLogicalPartition, mTelemetryPersistentFields, mTelemetryShadowFields);
 }
 
 
@@ -120,7 +154,8 @@ void TopLevelTask::createResultLogicalRegion(Context ctx, Runtime* runtime, unsi
   createLogicalRegionWithPartition(ctx, runtime, std::string("result"), numEntities,
                                    createResultFieldSpace, mResultIndexSpace,
                                    mResultFieldSpace, mResultRegion,
-                                   mResultLogicalPartition);
+                                   mResultLogicalPartition, mResultPersistentFields,
+                                   mResultShadowFields);
   
 }
 
@@ -130,8 +165,9 @@ void TopLevelTask::createControlLogicalRegion(Context ctx, Runtime* runtime, uns
   createLogicalRegionWithPartition(ctx, runtime, std::string("control"), numEntities,
                                    createControlFieldSpace, mControlIndexSpace,
                                    mControlFieldSpace, mControlRegion,
-                                   mControlLogicalPartition);
-
+                                   mControlLogicalPartition, mControlPersistentFields,
+                                   mControlShadowFields);
+  
 }
 
 
@@ -168,7 +204,11 @@ void TopLevelTask::launchGraphManagerTask(Context ctx, Runtime* runtime) {
 }
 
 bool TopLevelTask::timeToMonitor() {
-  return true;
+  return true;//TODO
+}
+
+bool TopLevelTask::timeToPersist() {
+  return true;//TODO
 }
 
 void TopLevelTask::launchRobustnessMonitorTask(Context ctx, Runtime* runtime) {
@@ -188,6 +228,54 @@ void TopLevelTask::maybeOpenFileDataSource() {
 
 
 
+void TopLevelTask::persistLogicalRegion(Context ctx, Runtime* runtime,
+                                        LogicalRegion region,
+                                        std::string name,
+                                        std::vector<FieldID> persistentFields,
+                                        std::vector<FieldID> shadowFields) {
+  
+  AttachLauncher attachLauncher(EXTERNAL_POSIX_FILE, region, region);
+  attachLauncher.attach_file(name.c_str(), shadowFields, LEGION_FILE_CREATE);
+  PhysicalRegion physicalRegion = runtime->attach_external_resource(ctx, attachLauncher);
+  
+  CopyLauncher copyLauncher;
+  std::vector<FieldID>::iterator shadowIt = shadowFields.begin();
+  std::vector<FieldID>::iterator persistentIt = persistentFields.begin();
+  for( ; shadowIt != shadowFields.end(); shadowIt++, persistentIt++) {
+    copyLauncher.add_copy_requirements(
+                                       RegionRequirement(region, READ_ONLY, EXCLUSIVE, region).add_field(*persistentIt),
+                                       RegionRequirement(region, READ_WRITE, EXCLUSIVE, region).add_field(*shadowIt)
+                                       );
+  }
+  runtime->issue_copy_operation(ctx, copyLauncher);
+  runtime->detach_external_resource(ctx, physicalRegion);
+}
+
+void TopLevelTask::persistTelemetryRegion(Context ctx, Runtime* runtime) {
+  persistLogicalRegion(ctx, runtime, mTelemetryRegion, std::string("telemetry"),
+                       mTelemetryPersistentFields,
+                       mTelemetryShadowFields);
+}
+
+void TopLevelTask::persistResultRegion(Context ctx, Runtime* runtime) {
+  persistLogicalRegion(ctx, runtime, mResultRegion, std::string("result"),
+                       mResultPersistentFields,
+                       mResultShadowFields);
+}
+
+void TopLevelTask::persistControlRegion(Context ctx, Runtime* runtime) {
+  persistLogicalRegion(ctx, runtime, mControlRegion, std::string("control"),
+                       mControlPersistentFields,
+                       mControlShadowFields);
+}
+
+void TopLevelTask::persistLogicalRegions(Context ctx, Runtime* runtime) {
+  persistTelemetryRegion(ctx, runtime);
+  persistResultRegion(ctx, runtime);
+  persistControlRegion(ctx, runtime);
+}
+
+
 void TopLevelTask::top_level_task(const Task* task,
                                   const std::vector<PhysicalRegion> &regions,
                                   Context ctx, Runtime* runtime) {
@@ -202,6 +290,10 @@ void TopLevelTask::top_level_task(const Task* task,
     
     if(timeToMonitor()) {
       launchRobustnessMonitorTask(ctx, runtime);
+    }
+    
+    if(timeToPersist()) {
+      persistLogicalRegions(ctx, runtime);
     }
     
   } while(true);

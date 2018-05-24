@@ -25,7 +25,7 @@ using namespace Legion;
 
 
 class TopLevelTask : public RobustTask {
-  public:
+public:
   enum TaskIdEnum {
     TOP_LEVEL_TASK,
     WORKER_TASK,
@@ -40,15 +40,21 @@ class TopLevelTask : public RobustTask {
   
   enum RegionFieldEnum {
     TELEMETRY_TIMESTAMP,
+    TELEMETRY_TIMESTAMP_,
     TELEMETRY_DATA,
+    TELEMETRY_DATA_,
     RESULT_TIMESTAMP,
+    RESULT_TIMESTAMP_,
     RESULT_DATA,
+    RESULT_DATA_,
     CONTROL_TIMESTAMP,
-    CONTROL_DATA
+    CONTROL_TIMESTAMP_,
+    CONTROL_DATA,
+    CONTROL_DATA_
   };
   
   
-  public:
+public:
   TopLevelTask();
   virtual ~TopLevelTask();
   static void top_level_task(const Task* task,
@@ -58,7 +64,7 @@ class TopLevelTask : public RobustTask {
   static unsigned numGraphManagers() { return mNumGraphManagers; }
   static unsigned numRobustnessMonitors() { return mNumRobustnessMonitors; }
   
-  private:
+private:
   static TaskIdEnum mDataSource;
   static unsigned mNumWorkers;
   static unsigned mNumGraphManagers;
@@ -74,31 +80,39 @@ class TopLevelTask : public RobustTask {
   static FieldSpace mTelemetryFieldSpace;
   static LogicalRegion mTelemetryRegion;
   static LogicalPartition mTelemetryLogicalPartition;
-  
+  static std::vector<FieldID> mTelemetryPersistentFields;
+  static std::vector<FieldID> mTelemetryShadowFields;
+
   static IndexSpace mResultIndexSpace;
   static FieldSpace mResultFieldSpace;
   static LogicalRegion mResultRegion;
   static LogicalPartition mResultLogicalPartition;
-  
+  static std::vector<FieldID> mResultPersistentFields;
+  static std::vector<FieldID> mResultShadowFields;
+
   static IndexSpace mControlIndexSpace;
   static FieldSpace mControlFieldSpace;
   static LogicalRegion mControlRegion;
   static LogicalPartition mControlLogicalPartition;
-  
+  static std::vector<FieldID> mControlPersistentFields;
+  static std::vector<FieldID> mControlShadowFields;
+
   static void createTelemetryFieldSpace(Context ctx, Runtime* runtime,
-                                        FieldSpace& fieldSpace);
+                                        FieldSpace& fieldSpace, std::vector<FieldID>& persistentFields, std::vector<FieldID>& shadowFields);
   static void createResultFieldSpace(Context ctx, Runtime* runtime,
-                                     FieldSpace& fieldSpace);
+                                     FieldSpace& fieldSpace, std::vector<FieldID>& persistentFields, std::vector<FieldID>& shadowFields);
   static void createControlFieldSpace(Context ctx, Runtime* runtime,
-                                      FieldSpace& fieldSpace);
+                                      FieldSpace& fieldSpace, std::vector<FieldID>& persistentFields, std::vector<FieldID>& shadowFields);
   static void createLogicalRegionWithPartition(Context ctx, Runtime* runtime,
                                                std::string name,
                                                unsigned numEntities,
-                                               void (*createFieldSpace)(Context ctx, Runtime* runtime, FieldSpace& fieldSpace),
+                                               void (*createFieldSpace)(Context ctx, Runtime* runtime, FieldSpace& fieldSpace, std::vector<FieldID>& regionPersistentFields, std::vector<FieldID>& regionShadowFields),
                                                IndexSpace& regionIndexSpace,
                                                FieldSpace& regionFieldSpace,
                                                LogicalRegion& region,
-                                               LogicalPartition& regionPartition);
+                                               LogicalPartition& regionPartition,
+                                               std::vector<FieldID>& regionPersistentFields,
+                                               std::vector<FieldID>& regionShadowFields);
   static void createTelemetryLogicalRegion(Context ctx, Runtime* runtime, unsigned numEntities);
   static void createResultLogicalRegion(Context ctx, Runtime* runtime, unsigned numEntities);
   static void createControlLogicalRegion(Context ctx, Runtime* runtime, unsigned numEntities);
@@ -106,7 +120,17 @@ class TopLevelTask : public RobustTask {
   static void launchTelemetryProcessingTasks(Context ctx, Runtime* runtime);
   static void launchGraphManagerTask(Context ctx, Runtime* runtime);
   static bool timeToMonitor();
+  static bool timeToPersist();
   static void launchRobustnessMonitorTask(Context ctx, Runtime* runtime);
+  static void persistLogicalRegion(Context ctx, Runtime* runtime,
+                                   LogicalRegion region,
+                                   std::string name,
+                                   std::vector<FieldID> persistentFields,
+                                   std::vector<FieldID> shadowFields);
+  static void persistTelemetryRegion(Context ctx, Runtime* runtime);
+  static void persistResultRegion(Context ctx, Runtime* runtime);
+  static void persistControlRegion(Context ctx, Runtime* runtime);
+  static void persistLogicalRegions(Context ctx, Runtime* runtime);
   static void maybeOpenFileDataSource();
   
 };

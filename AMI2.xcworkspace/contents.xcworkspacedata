@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <FileRef
-      location = "group:src/legion/main.cpp">
-   </FileRef>
-   <FileRef
-      location = "group:doc">
-   </FileRef>
-   <FileRef
-      location = "group:README.md">
-   </FileRef>
-   <FileRef
-      location = "group:src">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "Legion">
+      <FileRef
+         location = "group:legion">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "AMI2">
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+      <FileRef
+         location = "group:doc">
+      </FileRef>
+      <FileRef
+         location = "group:src">
+      </FileRef>
+   </Group>
 </Workspace>
