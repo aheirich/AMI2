@@ -62,6 +62,7 @@ public:
   static void top_level_task(const Task* task,
                              const std::vector<PhysicalRegion> &regions,
                              Context ctx, Runtime* runtime);
+  static void collectEnvironmentVariables();
   static unsigned numWorkers() { return mNumWorkers; }
   static unsigned numGraphManagers() { return mNumGraphManagers; }
   static unsigned numRobustnessMonitors() { return mNumRobustnessMonitors; }
@@ -77,6 +78,7 @@ private:
   static Collector mCollector;
   static GraphManager mGraphManager;
   static RobustnessMonitor mRobustnessMonitor;
+  static char* mFilePathBase;
   
   static IndexSpace mTelemetryIndexSpace;
   static FieldSpace mTelemetryFieldSpace;

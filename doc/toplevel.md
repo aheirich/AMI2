@@ -102,6 +102,12 @@ The [Robustness Monitor](robustness.md) monitors the state of the system and res
 It is in turn monitored by another component.
 This guarantees that the system will stay up unless both components fail simultaneously.
 
+## Issues
+
+### configuration changes
+A barrier should flow through the data path when a system configuration is changed, eg changing the setting of a motor.
+Data should not cross such a barrier, when we combine data in a fuzzy way (pick 1 of n paradigm).
+
 
 ## Project Goals
 

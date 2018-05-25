@@ -15,6 +15,7 @@ TopLevelTask::TaskIdEnum TopLevelTask::mDataSource;
 unsigned TopLevelTask::mNumWorkers;
 unsigned TopLevelTask::mNumGraphManagers;
 unsigned TopLevelTask::mNumRobustnessMonitors;
+char* TopLevelTask::mFilePathBase;
 
 FileDataSource TopLevelTask::mFileDataSource;
 SharedMemoryDataSource TopLevelTask::mSharedMemoryDataSource;
@@ -45,16 +46,20 @@ std::vector<FieldID> TopLevelTask::mControlPersistentFields;
 std::vector<FieldID> TopLevelTask::mControlShadowFields;
 
 
-
 TopLevelTask::TopLevelTask(){
   mDataSource = FILE_DATA_SOURCE_TASK;
   mNumWorkers = mNumGraphManagers = mNumRobustnessMonitors = 1;
+  collectEnvironmentVariables();
 }
 
 
 TopLevelTask::~TopLevelTask(){
 }
 
+
+void TopLevelTask::collectEnvironmentVariables() {
+  mFilePathBase = std::getenv("AMI2_FILE_PATH_BASE");
+}
 
 void TopLevelTask::createTelemetryFieldSpace(Context ctx, Runtime* runtime,
                                              FieldSpace& fieldSpace,
@@ -65,11 +70,13 @@ void TopLevelTask::createTelemetryFieldSpace(Context ctx, Runtime* runtime,
   RegionFieldEnum fieldId;
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), TELEMETRY_TIMESTAMP);
   assert(fieldId == TELEMETRY_TIMESTAMP);
+  persistentFields.push_back(TELEMETRY_TIMESTAMP);
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), TELEMETRY_TIMESTAMP_);
   assert(fieldId == TELEMETRY_TIMESTAMP_);
-  persistentFields.push_back(TELEMETRY_TIMESTAMP_);
+  shadowFields.push_back(TELEMETRY_TIMESTAMP_);
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), TELEMETRY_DATA);
   assert(fieldId == TELEMETRY_DATA);
+  persistentFields.push_back(TELEMETRY_DATA);
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), TELEMETRY_DATA_);
   assert(fieldId == TELEMETRY_DATA_);
   shadowFields.push_back(TELEMETRY_DATA_);
@@ -85,11 +92,13 @@ void TopLevelTask::createResultFieldSpace(Context ctx, Runtime* runtime,
   RegionFieldEnum fieldId;
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), RESULT_TIMESTAMP);
   assert(fieldId == RESULT_TIMESTAMP);
+  persistentFields.push_back(RESULT_TIMESTAMP);
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), RESULT_TIMESTAMP_);
   assert(fieldId == RESULT_TIMESTAMP_);
-  persistentFields.push_back(RESULT_TIMESTAMP_);
+  shadowFields.push_back(RESULT_TIMESTAMP_);
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), RESULT_DATA);
   assert(fieldId == RESULT_DATA);
+  persistentFields.push_back(RESULT_DATA);
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), RESULT_DATA_);
   assert(fieldId == RESULT_DATA_);
   shadowFields.push_back(RESULT_DATA_);
@@ -105,11 +114,13 @@ void TopLevelTask::createControlFieldSpace(Context ctx, Runtime* runtime,
   RegionFieldEnum fieldId;
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), CONTROL_TIMESTAMP);
   assert(fieldId == CONTROL_TIMESTAMP);
+  persistentFields.push_back(CONTROL_TIMESTAMP);
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), CONTROL_TIMESTAMP_);
   assert(fieldId == CONTROL_TIMESTAMP_);
-  persistentFields.push_back(CONTROL_TIMESTAMP_);
+  shadowFields.push_back(CONTROL_TIMESTAMP_);
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), CONTROL_DATA);
   assert(fieldId == CONTROL_DATA);
+  persistentFields.push_back(CONTROL_DATA);
   fieldId = (RegionFieldEnum)allocator.allocate_field(sizeof(int), CONTROL_DATA_);
   assert(fieldId == CONTROL_DATA_);
   shadowFields.push_back(CONTROL_DATA_);
@@ -221,8 +232,8 @@ void TopLevelTask::launchRobustnessMonitorTask(Context ctx, Runtime* runtime) {
 }
 
 void TopLevelTask::maybeOpenFileDataSource() {
-  if(const char* filePathBase = std::getenv("AMI2_FILE_PATH_BASE")) {
-    mFileDataSource.selectFileDataSource(filePathBase);
+  if(mFilePathBase != nullptr) {
+    mFileDataSource.selectFileDataSource(mFilePathBase);
   }
 }
 
