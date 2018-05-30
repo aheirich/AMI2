@@ -7,10 +7,7 @@
 import AMI_graph as AMI
 
 def displayGraph(collectorResult):
-  meanIntensity = collectorResult[ 'cspadMeanIntensity' ]
-  cspad = collectorResult[ 'cspad' ]
-  scaledCspad = AMI.scaleCspad(cspad, 1.0 / meanIntensity)
-  return {'stripChartBuffer' : collectorResult[ 'stripChartBuffer' ], 'timeAveragedStripChartBuffer' : collectorResult[ 'timeAveragedStripChartBuffer' ], 'cspad' : collectorResult[ 'cspad' ], 'cspadMeanIntensity' : collectorResult[ 'cspadMeanIntensity' ] }
+  return { '_cspad0_stripChartBuffer' : collectorResult[ '_cspad0_stripChartBuffer' ], '_timeAveraged_cspad0_stripChartBuffer' : collectorResult[ '_timeAveraged_cspad0_stripChartBuffer' ], 'cspad0' : cspad0, '_meanIn_cspad0_ROI' : _meanIn_cspad0_ROI }
 
 collectorResult = AMI.getCollectorResult()
 AMI.displayResultIs(displayGraph(collectorResult))

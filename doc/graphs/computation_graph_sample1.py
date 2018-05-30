@@ -8,21 +8,22 @@
 
 import AMI_graph as AMI
 
-cspadSum = numpy.array([ 0 ])
 nextDisplayableTimestamp = 0
 displayInterval = 10 # units
 
+_cspad0_accumulator = numpy.array([ [0] * 1048576 ])
+_cspad0_ROI = [ 0, 0, 1023, 1023 ]
+
 def computationGraph(telemetryFrame):
   timestamp = telemetryFrame[ 'timestamp' ]
-  cspad = telemetryFrame[ 'cspad' ]
-  cspadSum = AMI.mergeCspad(cspad, cspadSum)
-  cspadROI = [ 100, 100, 200, 200 ]
-  meanPixelIntensity = AMI.meanPixelIntensity(cspad, cspadROI)
+  cspad0 = telemetryFrame[ 'cspad0' ]
+  _cspad0_accumulator = AMI.mergeSeries(cspad0, _cspad0_accumulator, 0.9)
+  _meanIn_cspad0_ROI = AMI.meanInROI(cspad0, _cspad0_ROI)
   
   global nextDisplayableTimestamp
   if timestamp >= nextDisplayableTimestamp:
     nextDisplayableTimestamp = nextDisplayableTimestamp + displayInterval
-    return { 'timestamp' : 0, 'cspad' : cspad, 'cspadMeanIntensity' : meanPixelIntensity }
+    return { 'timestamp' : timestamp, 'cspad0' : _cspad0_accumulator, '_meanIn_cspad0_ROI' : _meanIn_cspad0_ROI }
   else:
     return {}
 
