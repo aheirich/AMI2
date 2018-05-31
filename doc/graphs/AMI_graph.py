@@ -4,9 +4,178 @@
 
 import numpy
 
-## TODO Seprate these between called from client and called from graph
 
-## Q what about vector data as opposed to scalar data?
+###
+### graphs
+###
+
+computationGraph = None
+collectorGraph = None
+displayGraph = None
+
+def computationGraphIs(graph):
+  global computationGraph
+  computationGraph = graph
+
+def collectorGraphIs(graph):
+  global collectorGraph
+  collectorGraph = graph
+
+def displayGraphIs(graph):
+  global displayGraph
+  displayGraph = graph
+
+
+
+class ComputationGraph(object):
+  
+  def __init__(self, name):
+    self.name = name
+  
+  computations = []
+  def add(self, computation):
+    computations.append(computation)
+
+  def initialize(self, listOfObjects):
+    instantiatedObjects = []
+    for object in listOfObjects:
+      eval(object.selfDeclaration)
+      instantiatedObjects.append(eval(self.name))
+    return instantiatedObjects
+
+
+
+class CollectorGraph(object):
+  
+  def __init__(self, name):
+    self.name = name
+  
+  collectors = []
+  def add(self, collector):
+    collectors.append(collector)
+
+
+class DisplayGraph(object):
+  
+  def __init__(self, name):
+    self.name = name
+  
+  displays = []
+  def add(self, display):
+    displays.append(display)
+
+
+
+
+
+####
+#### graph elements
+####
+
+
+
+class DATATYPE(object):
+  
+  def __init__(self, name):
+    self.name = name
+    self.dimensions = []
+    
+  def constructorArguments(self):
+    return "'" + self.name + "'"
+
+  def selfDeclaration(self):
+    declaration = self.name + ' = AMI.' + self.__class__.__name__ + '(' + self.constructorArguments) + ')'
+    return declaration
+
+class TENSOR(DATATYPE):
+  
+  def __init__(self, name):
+    super(TENSOR, self).__init__(name)
+
+class TENSOR0D(TENSOR):
+  
+  def __init__(self, name):
+    super(TENSOR0D, self).__init__(name)
+
+class POINT(TENSOR0D):
+  
+  def __init__(self, name):
+    super(POINT, self).__init__(name)
+
+class TENSOR1D(TENSOR):
+  
+  def __init__(self, name, size=0):
+    super(TENSOR1D, self).__init__(name)
+    self.dimensions = [ size ]
+
+  def constructorArguments(self):
+    return "'" + self.name + "', " + str(self.dimensions[0])
+
+class VECTOR(TENSOR1D):
+  
+  def __init__(self, name, size=0):
+    super(VECTOR, self).__init__(name)
+
+class StripChart(VECTOR):
+  
+  def __init__(self, scalarDataType, size=0):
+    super(StripChart, self).__init__(scalarDataType.name)
+
+class TENSOR2D(TENSOR):
+  
+  def __init__(self, name, rows=0, columns=0):
+    super(TENSOR2D, self).__init__(name)
+    self.dimensions = [ row, columns ]
+
+  def constructorArguments(self):
+    return "'" + self.name + "', " + str(self.dimensions[0]) + ", " + str(self.dimensions[1])
+
+class IMAGE(TENSOR2D):
+  
+  def __init__(self, name, rows, columns):
+    super(IMAGE, self).__init__(name, rows, columns)
+
+class CSPAD(IMAGE):
+  
+  def __init__(self, name, rows, columns):
+    super(CSPAD, self).__init__(name, rows, columns)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class DATATYPE(object):
@@ -61,27 +230,50 @@ class DATATYPE(object):
     return result
 
   def stripChartName(self):
-    return '_' + self.sourceDataName + '_stripChartBuffer'
-
-  def collectorPreamble(self):
-    return ''
-
-  def generateCollector(self):
-    return ''
+    return self.sourceDataName + '_stripChartBuffer'
 
   def generateMergeSeries(self):
-    return self.accumulatorName() + ' = AMI.mergeSeries(' + self.name + ', ' + self.accumulatorName() + ', ' + str(self.decayExponent) + ')'
+    return [
+            '  global ' + self.accumulatorName(),
+            '  ' + self.accumulatorName() + ' = AMI.mergeSeries(' + self.name + ', ' + self.accumulatorName() + ', ' + str(self.decayExponent) + ')'
+    ]
   
   def generateComputeMeanInROI(self):
-    return self.meanInROIName() + ' = AMI.meanInROI(' + self.name + ', ' + self.roiName() + ')'
+    return '  ' + self.meanInROIName() + ' = AMI.meanInROI(' + self.name + ', ' + self.roiName() + ')'
 
   def computationGraph(self):
-    result = [ self.name + ' = telemetryFrame[ "' + self.name + '" ]' ]
+    result = [ '  ' + self.name + ' = telemetryFrame[ "' + self.name + '" ]' ]
     if self.decayExponent > 0 and self.decayExponent < 1:
-      result.append(self.generateMergeSeries())
+      result = result + self.generateMergeSeries()
     if self.computeMeanInROI:
       result.append(self.generateComputeMeanInROI())
     return result
+  
+  def returnInDict(self, field, dictName):
+    if dictName is not None:
+      return dictName + "[ '" + field + "' ]"
+    else:
+      return field
+  
+  def computationReturns(self, dictName=None):
+    result = "'" + self.name + "' : "
+    if self.decayExponent:
+      if dictName is None:
+        result = result + self.accumulatorName()
+      else:
+        result = result + self.returnInDict(self.name, dictName)
+    else:
+      result = result + self.returnInDict(self.name, dictName)
+    if self.computeMeanInROI:
+      result = result + ", '" + self.meanInROIName() + "' : " + self.returnInDict(self.meanInROIName(), dictName)
+    return result
+
+  def collectorPreamble(self):
+    return ''
+  
+  def collectorGraph(self):
+    return ''
+  
 
   def displayPreamble(self):
     return []
@@ -156,19 +348,28 @@ class StripChart(VECTOR):
     return result
 
   def collectorGraph(self):
-    result = ['if len(' + self.stripChartName() + ') >= ' + self.stripChartName() + 'Width:']
-    result.append('  ' + self.stripChartName() + 'RollingSum = ' + self.stripChartName() + 'RollingSum - ' + self.stripChartName() + '[0]')
-    result.append('  ' + self.stripChartName() + ' = ' + self.stripChartName() + '[1:]')
+    result = ['  if len(' + self.stripChartName() + ') >= ' + self.stripChartName() + 'Width:']
+    result.append('    ' + self.stripChartName() + 'RollingSum = ' + self.stripChartName() + 'RollingSum - ' + self.stripChartName() + '[0]')
+    result.append('    ' + self.stripChartName() + ' = ' + self.stripChartName() + '[1:]')
     result.append('  ' + self.sourceData.meanInROIName() + ' = computationResult[ "' + self.sourceData.meanInROIName() + '" ]')
     result.append('  ' + self.stripChartName() + '.append(' + self.sourceData.meanInROIName() + ')')
     result.append('  ' + self.stripChartName() + 'RollingSum = ' + self.stripChartName() + 'RollingSum + ' + self.sourceData.meanInROIName())
+    result.append('')
 
     if self.timeAverageNumPoints > 0:
       result.append('  ' + 'if len(' + self.timeAveragedName() + ') >= ' + self.timeAveragedName() + 'Width:')
       result.append('    ' + self.timeAveragedName() + ' = ' + self.timeAveragedName() + '[1:]')
-      result.append('    ' + self.timeAveragedName() + '.append(' + self.stripChartName() + 'RollingSum / len(' + self.stripChartName() + '))')
+      result.append('  ' + self.timeAveragedName() + '.append(' + self.stripChartName() + 'RollingSum / len(' + self.stripChartName() + '))')
 
     return result
+
+  def collectorReturns(self):
+    result = ", '" + self.stripChartName() + "' : computationResult[ '" + self.stripChartName() + "' ]"
+    if self.timeAverageNumPoints > 0:
+      result = result + ", '" + self.timeAveragedName() + "' : computationResult[ '" + self.timeAveragedName() + "' ]"
+    result = result + ', ' + self.sourceData.computationReturns('computationResult')
+    return result
+
 
 
 class TENSOR2D(TENSOR):
@@ -201,7 +402,7 @@ class CSPAD(IMAGE):
 
 
 def ingestTelemetryFrame():
-  return { 'cspad' : numpy.array([ [0] * 1048576 ]) }
+  return { 'cspad0' : numpy.array([ [0] * 1048576 ]), 'timestamp' : 0 }
 
 def getComputationResult():
   return {}
@@ -275,18 +476,75 @@ def addDisplay(display):
 
 ##
 
-def computationGraph():
-  result = []
+def computationReturns():
+  result = "{ 'timestamp' : timestamp"
   for computation in computations:
+    result = result + ', ' + computation.computationReturns()
+  result = result + ' }'
+  return result
+
+
+def computationGraph():
+  result = [
+            '# computation graph',
+            'import AMI_graph as AMI',
+            'import numpy',
+            '',
+            'nextDisplayableTimestamp = 0',
+            'displayInterval = 10 # units',
+            ''
+  ]
+  for computation in computations:
+    result.append('# ' + computation.name)
     result = result + computation.computationPreamble()
+  result = result + [
+                     '',
+                     'def computationGraph(telemetryFrame):',
+                     "  timestamp = telemetryFrame[ 'timestamp' ]"
+  ]
+  for computation in computations:
+    result.append('  # ' + computation.name)
     result = result + computation.computationGraph()
+  result = result + [
+                     '',
+                     '  global nextDisplayableTimestamp',
+                     '  if timestamp >= nextDisplayableTimestamp:',
+                     '    nextDisplayableTimestamp = nextDisplayableTimestamp + displayInterval'
+  ]
+  result.append('    return ' + computationReturns())
+  result = result + [
+                     '  else:',
+                     '    return {}',
+                     '',
+                     'telemetryFrame = AMI.ingestTelemetryFrame()',
+                     'AMI.computationResultIs(computationGraph(telemetryFrame))'
+  ]
   return result
 
 def collectorGraph():
-  result = []
+  result = [
+            'import AMI_graph as AMI',
+            'import numpy',
+            ''
+  ]
   for collector in collectors:
+    result.append('  # ' + collector.name)
     result = result + collector.collectorPreamble()
+  result = result + [
+                     '',
+                     'def collectorGraph(computationResult):',
+                     ''
+  ]
+  for collector in collectors:
+    result.append('  # ' + collector.name)
     result = result + collector.collectorGraph()
+  result.append('')
+  result.append("  return { 'timestamp' : timestamp" + collector.collectorReturns() + ' }')
+  result = result + [
+                     '',
+                     'computationResult = AMI.getComputationResult()',
+                     'AMI.collectorResultIs(collectorGraph(computationResult))'
+  ]
   return result
 
 def displayGraph():

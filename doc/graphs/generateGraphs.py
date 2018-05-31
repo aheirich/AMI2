@@ -2,7 +2,7 @@
 # generateGraphs.py
 #
 
-import AMI_graph as AMI
+import AMI_server, AMI_client
 
 
 
@@ -13,19 +13,15 @@ if __name__ == '__main__':
   from PyQt5.QtCore import *
 
   import sys
-  import client_sample1
+  import client_sample2
   app = QApplication(sys.argv)
-  mainWindow = client_sample1.MainWindow()
-  computationGraph = AMI.computationGraph()
-  print("computation graph")
-  for line in computationGraph:
-    print(line)
-  collectorGraph = AMI.collectorGraph()
-  print("collector graph")
-  for line in collectorGraph:
-    print(line)
-  displayGraph = AMI.displayGraph()
-  print("display graph")
-  for line in displayGraph:
-    print(line)
+  mainWindow = client_sample2.MainWindow()
+  
+  computationGraph = AMI_server.computationGraph()
+
+  collectorGraph = AMI_server.collectorGraph()
+
+  displayGraph = AMI_client.displayGraph()
+
+  # TODO display graphs in visual/text form
 
