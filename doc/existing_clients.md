@@ -68,16 +68,16 @@ The plots themselves look the same as for the Env modes.
 <table style="width:100%">
 <tr>
 <th>
-<img src="clients/AMI1_screenshots/LifeFit_vTime_UI_011.png">
+<img src="clients/AMI1_screenshots/LineFit_vTime_UI_011.png">
 </th>
 <th>
-<img src="clients/AMI1_screenshots/LifeFit_meanVVar_UI_012.png">
+<img src="clients/AMI1_screenshots/LineFit_meanVVar_UI_012.png">
 </th>
 <th>
-<img src="clients/AMI1_screenshots/LifeFit_meanVScan_013.png">
+<img src="clients/AMI1_screenshots/LineFit_meanVScan_013.png">
 </th>
 <th>
-<img src="clients/AMI1_screenshots/LifeFit_meanVVar2D_014.png">
+<img src="clients/AMI1_screenshots/LineFit_meanVVar2D_014.png">
 </th>
 </tr>
 </table>
