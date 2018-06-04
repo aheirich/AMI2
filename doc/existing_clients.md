@@ -36,11 +36,27 @@ Here is a plot from the "v Time" mode, it is similar to the 1D histogram plot.
 
 We can apply a filter to the data source like this.
 
+The next images show the different modes:
+
+<table style="width:100%">
+<tr>
+<th>
 <img src="clients/AMI1_screenshots/Env_vtime_UI_006.png">
+</th>
+<th>
 <img src="clients/AMI1_screenshots/Env_mean_v_var_UI_007.png">
+</th>
+<th>
 <img src="clients/AMI1_screenshots/Env_mean_v_scan_UI_008.png">
+</th>
+<th>
 <img src="clients/AMI1_screenshots/Env_2d_histogram_UI_009.png">
+</th>
+<th>
 <img src="clients/AMI1_screenshots/Env_mean_v_var2D_UI_010.png">
+</th>
+</tr>
+</table>
 
 The only difference among these modes is the selection in the "Plot type" region.
 
