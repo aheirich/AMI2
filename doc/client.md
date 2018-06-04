@@ -6,6 +6,8 @@ Client processes interact identically with the Legion and Generic Designs.
 A Python/Qt process.
 Scripted testing using Qt/Script.
 
+[Here is a list](existing_clients.md) of existing clients from AMI-1.
+
 ## Web Browser Client
 Using JavaScript visualization D3.js, [lexicon](lexicon.md).
 Using skulpt in-browser python environment.
