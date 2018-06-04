@@ -28,6 +28,7 @@ Refer to these as "standard plot types".
 <img src="clients/AMI1_screenshots/1dhistogram_003.png">
 
 All of the modes produce a small x-y plot like this one for the 1D histogram.
+Refer to these as "standard small plots".
 
 <img src="clients/AMI1_screenshots/1d_vtime_1_004.png">
 
@@ -198,3 +199,21 @@ Pressing "plot" brings up an image window.
 Selecting "Blob Finder: brings up this window.
 Selecting "plot" brings up the image window.
 
+<table style="width:100%">
+<tr>
+<th>
+<img src="clients/AMI1_screenshots/yag_Droplet_map_UI_033.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/yag_Droplet_plot_030.png">
+</th>
+</tr>
+</table>
+
+
+Selecting "Droplet" brings up the drop analysis window which has two modes, Map and Analysis.
+In Map mode selecting "plot" brings up an image window.
+
+<img src="clients/AMI1_screenshots/yag_Droplet_analysis_UI_034.png">
+
+In Analysis mode selecting "plot" brings up a standard small plot.
