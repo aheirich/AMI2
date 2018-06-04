@@ -146,3 +146,55 @@ Integral and contrast provide the standard plot types with normalize and range e
 </tr>
 </table>
 
+
+Contour projection opens a plot like this.
+
+<table style="width:100%">
+<tr>
+<th>
+<img src="clients/AMI1_screenshots/yag_Contour_Projection_plot_Cursors_025.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/yag_Contour_Projection_plot_peakfit_026.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/yag_Contour_Projection_plot_Fit_027.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/yag_Contour_Projection_plot_XTransform_028.png">
+</th>
+</tr>
+</table>
+
+The contour projection plot supports options for Cursors, Peak, Fit and X Transform.
+
+
+<table style="width:100%">
+<tr>
+<th>
+<img src="clients/AMI1_screenshots/yag_HitFinder_029.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/yag_HitFinder_plot_030.png">
+</th>
+</tr>
+</table>
+
+Selecting "Hit Finder" brings up the PeakFinder plot.
+Pressing "plot" brings up an image window.
+
+
+<table style="width:100%">
+<tr>
+<th>
+<img src="clients/AMI1_screenshots/yag_BlobFinder_031.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/yag_BlobFinder_plot_032.png">
+</th>
+</tr>
+</table>
+
+Selecting "Blob Finder: brings up this window.
+Selecting "plot" brings up the image window.
+
