@@ -22,6 +22,7 @@ TODO: explain session control.
 The Env data source supports one of six modes for displaying data
 (1D histogram, v Time, Mean v Var, Mean v Scan, 2D histogram, Mean v Var2D).
 All of these modes support "Normalize" and "Weight by" as shown.
+Refer to these as "standard plot types".
 
 
 <img src="clients/AMI1_screenshots/1dhistogram_003.png">
@@ -62,7 +63,7 @@ The only difference among these modes is the selection in the "Plot type" region
 
 ### LineFit
 
-LifeFit has 4 plotting modes.  Every mode selects source channels, fit method, and plot type.
+LineFit has 4 plotting modes.  Every mode selects source channels, fit method, and plot type.
 The plots themselves look the same as for the Env modes.
 
 <table style="width:100%">
@@ -83,5 +84,65 @@ The plots themselves look the same as for the Env modes.
 </table>
 
 
-Each plot make has different specifications.
+Each plot mode has different specifications.
+
+### yag3
+
+
+<img src="clients/AMI1_screenshots/yag3_016.png">
+
+yag3 is an image sensor for e.g. a CSPAD detector.
+It supports six analysis modes:
+X/Y, rho/psi, contour projection, hit finder, blob finder, droplet.
+
+<table style="width:100%">
+<tr>
+<th>
+<img src="clients/AMI1_screenshots/yag_XY_image_projection_histogram_017.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/yag_XY_image_projection_projection_018.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/yag_XY_image_projection_function_019.png">
+</th>
+</tr>
+</table>
+
+X/Y selection offers three plot modes:
+histogram, projection, function.
+All modes offer a region-of-interest selection.
+Function mode offers the standard plot types (1d histogram, etc) and normalize/weight by specification
+as well as a range expression.
+
+
+<table style="width:100%">
+<tr>
+<th>
+<img src="clients/AMI1_screenshots/yag_rho_psi_projection_020.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/yag_rho_psi_integral_021.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/yag_rho_psi_contrast_022.png">
+</th>
+</tr>
+</table>
+
+rho/psi projection offers three plot modes:
+projection, integral and contrast.
+Integral and contrast provide the standard plot types with normalize and range expression.
+
+
+<table style="width:100%">
+<tr>
+<th>
+<img src="clients/AMI1_screenshots/yag_Contour_Projection_023.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/yag_Contour_Projection_plot_024.png">
+</th>
+</tr>
+</table>
 
