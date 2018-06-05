@@ -217,3 +217,30 @@ In Map mode selecting "plot" brings up an image window.
 <img src="clients/AMI1_screenshots/yag_Droplet_analysis_UI_034.png">
 
 In Analysis mode selecting "plot" brings up a standard small plot.
+
+
+### AmoITOF
+
+<img src="clients/AMI1_screenshots/AmoITOF-0\|Acqiris-0_1_035.png">
+
+This is a waveform display.
+
+
+<table style="width:100%">
+<tr>
+<th>
+<img src="clients/AMI1_screenshots/AmoITOF-0_EdgeFinder_036.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/AmoITOF-0_Cursors_037.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/AmoITOF-0_CurveFit_038.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/AmoITOF-0_FFT_039.png">
+</th>
+</tr>
+</table>
+
+Options include Edges, Cursors, Waveform Fit, Waveform FFT.
