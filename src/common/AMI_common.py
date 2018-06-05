@@ -137,33 +137,45 @@ class GraphElement(object):
   def resultName(self, prefix, roiIndex):
     return self.name + '.' + prefix + '.' + str(roiIndex)
   
-  # TODO this method is too long
+  def sumInROI(self, roi, data):
+    sum = self.dataType.allocateData()
+    if len(roi) > 1:
+      for i in range(roi[0], roi[2] + 1):
+        for j in range(roi[1], roi[3] + 1):
+          sum = sum + data[i][j]
+      return sum
+    else:
+      return data
+
+  def standardDeviationInROI(self, roi, data, mean, numPoints):
+    sumSquaredDifferences = self.dataType.allocateData()
+    for i in range(roi[0], roi[2]):
+      for j in range(roi[1], roi[3]):
+        difference = data[i][j] - mean
+        sumSquaredDifferences = sumSquaredDifferences + difference * difference
+    return math.sqrt(sumSquaredDifferences / (numPoints - 1))
+
+
   def computation(self, data, roi, roiIndex):
     result = {}
     if self.sum or self.mean or self.standardDeviation:
-      sum = self.dataType.allocateData()
+      sum = self.sumInROI(roi, data)
+      if self.sum:
+        result[self.resultName('sum', roiIndex)] = sum
+      numPoints = 1
       if len(roi) > 1:
-        for i in range(roi[0], roi[2] + 1):
-          for j in range(roi[1], roi[3] + 1):
-            sum = sum + data[i][j]
-      else:
-        sum = sum + data
-      if self.sum: result[self.resultName('sum', roiIndex)] = sum
-      if len(roi) > 1:
-        mean = sum / ((roi[2] - roi[0] + 1) * (roi[3] - roi[1] + 1))
+        numPoints = ((roi[2] - roi[0] + 1) * (roi[3] - roi[1] + 1))
+        mean = sum / numPoints
       else:
         mean = sum
-      if self.mean: result[self.resultName('mean', roiIndex)] = mean
+      if self.mean:
+        result[self.resultName('mean', roiIndex)] = mean
       if self.standardDeviation:
-        sumSquaredDifferences = self.dataType.allocateData()
-        for i in range(roi[0], roi[2]):
-          for j in range(roi[1], roi[3]):
-            difference = data[i][j] - mean
-            sumSquaredDifferences = sumSquaredDifferences + difference * difference
-        result[self.resultName('standardDeviation', roiIndex)] = math.sqrt(sumSquaredDifferences / (numPoints - 1))
+        result[self.resultName('standardDeviation', roiIndex)] = self.standardDeviationInROI(roi, data, mean, numPoints)
     else:
       result = { self.name : data }
     return result
+
 
   def executeComputation(self, telemetryFrame):
     data = telemetryFrame[self.name]

@@ -16,7 +16,7 @@ def workerGraph():
   graph.add(AMI.Point('timestamp'))
   return graph
 
-def normalizedWeight(x, normalize, weight):
+def normalizedWeighted(x, normalize, weight):
   return x / normalize * weight
 
 
@@ -27,6 +27,6 @@ while(True):
   data = AMI.displayResult()
   print data
   x = data['timestamp']
-  y = normalizedWeighted(data['field0'], data['normalizeField'], data['weightField'])
+  y = normalizedWeighted(data['field0.mean.0'], data['normalizeField'], data['weightField'])
   print x, y
 
