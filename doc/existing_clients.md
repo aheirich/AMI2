@@ -221,7 +221,7 @@ In Analysis mode selecting "plot" brings up a standard small plot.
 
 ### AmoITOF
 
-<img src="clients/AMI1_screenshots/AmoITOF-0\|Acqiris-0_1_035.png">
+<img src="clients/AMI1_screenshots/AmoITOF-0_Acqiris-0_1_035.png">
 
 This is a waveform display.
 
