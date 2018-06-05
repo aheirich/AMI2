@@ -12,8 +12,13 @@ def dataSources():
   return [ CSPAD( 'cspad0', { 'dimensions' : [ 1024, 1024] } ) ]
 
 def displayResult():
-  # TODO return a dict containing the output of the collector
+  # TODO return a dict containing the output of the results store
   # lock mutex
-  result = {}
+  filename = "resultStore.dat"
+  print(filename)
+  result = pickle.load(open(filename, "rb"))
   # unlock mutex
   return result
+
+def submitGraphToManager(graph):
+  graph.serialize()
