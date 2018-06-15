@@ -25,9 +25,9 @@ The system can be extended with new data sources (e.g. xyzDataSource).
 
 A resilient distributed in-memory storage system (E.g. Redis, Legion) is used for the control and data planes.
 Event data resides in a local store within a node.
-Computational results and control signals reside in a global store.
-Process heartbeats are monitored and failed processes are automatically restarted.
-Every process stores its volatile state in the resilient stores so it can reload that state when it restarts.
+Computational results and control signals reside in global stores.
+Component heartbeats are monitored and failed components are automatically restarted.
+Every component stores its volatile state in the resilient stores so it can reload that state when it restarts.
 
 Each event is processed by a different worker.
 Each cluster node supports multiple workers, typically one per core.
@@ -107,7 +107,7 @@ The Experimental Physics and Industrial Control System (EPICS) is a DOE labs pro
 #### TCP/IP
 
 ### Robustness Monitor
-The [Robustness Monitor](robust.md) monitors the state of the system and restarts failed processes.
+The [Robustness Monitor](robust.md) monitors the state of the system and restarts failed component.
 
 
 ## Issues
@@ -121,7 +121,7 @@ This can also serve as a data flush operation.
 
 Open Source package for Linux with an installer
 
-[Robust to node or process failure, recover from crash](robust.md)
+[Robust to node or component failure, recover from crash](robust.md)
 
 Scriptable, can log/control from logs/scripts
 
