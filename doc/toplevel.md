@@ -90,7 +90,7 @@ One or more Global Reducers reduce results across nodes from the Local Reducers.
 
 
 ### Graph Manager
-[Graph manager](graph_manager.md) maintains the computation graph.
+[Graph manager](graph_manager.md) maintains the [computation graph](computation_graph.md).
 May be replicated (not distributed) in a large scale system.
 The graph definition is stored in the global Control store.
 
