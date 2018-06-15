@@ -27,6 +27,17 @@ Droplet Finder
 The user can install packages using Conda.
 The user can provide Python source code to be imported into the computation graph and executed by objects.
 
+When the user starts a session they go through steps to define the new packages or code.
+The Python Conda environment is located on an NFS mount point that accessible to all cluster nodes.
+Use supplied code is copied with directory structure intact to a well-known place.
+
+
+User-supplied code can cause runtime failures.
+Some of these failures cannot be detected by the Graph Manager.
+Such errors can only be detected by a Worker or Reducer.
+These components can invalidate a graph when it is discovered to be bad,
+and return to using the previously known good graph.
+
 
 ## Server psueodcode
 

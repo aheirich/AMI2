@@ -141,4 +141,5 @@ Two versions, [one with Legion](legion_design.md) and [one with Redis](redis_des
 
 Support Epics protocol to send data to clients, also for clients to make requests
 
+We do not assume a global file system.
 
