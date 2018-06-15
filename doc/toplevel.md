@@ -33,20 +33,27 @@ Each event is processed by a different worker.
 Each cluster node supports multiple workers, typically one per core.
 The cluster can be scaled to support arbitrarily high data rates.
 
+The entire system is synchronized to the event timestamps.
+Time is divided into intervals ccording to a desired user interface display rate, typically 20 Hz.
+All results are maintained in bins according to the time interval in which they occur.
+
+
 A worker processes an event by feeding the data to a computation graph which is a series of transformations.
 The computation graph is defined by the Graph Manager according to requests from clients.
-It is implemented as a python program that is assembled and optimized by the Graph Manager.
-The program can compute sums of data across frames.
-The worker sends outputs of the computation graph to the Collector.
+It is implemented as a python program that is maintained by the Graph Manager.
+The worker sends outputs of the computation graph to the Local Reducer.
+The worker only sends output at the desired display rate.
+This results in a substantial reduction of the data rate compared to the original event data.
 
-A Collector receives outputs from a set of workers.
-It filters and buffers the outputs according to a collector graph that is similar to the computation graph.
-The collector graph is implemented as a python program and is maintained by the Graph Manager in response to client requests.
+A Local Reducer receives outputs from a set of workers.
+It repeats the (commutative) operations of the computation graph applied to the 
+results from the workers.
+For example, a worker may choose to compute the sum of a series of sensor images within a time interval.
+The Local Reducer applies the computation graph operations to the outputs from workers on a single cluster node.
 
-The purpose of the collector graph is to buffer and filter data before passing it to the Result store.
-The collector graph reduces the data rate from the workers to the Heartbeat Rate of the system.
-The Heartbeat Rate is the perceptual threshold of 20 Hz.
-This is the rate at which the Result Store is updated and also the Clients.
+One or more Global Reducers combine results from Local Reducers.
+Just like Local Reducers, Global Reducers apply the commutative operation of the computation graph to their inputs.
+They produce an output back into the Results store.
 
 
 Clients may be GUIs, web browsers, devices, or file proxies.
@@ -76,9 +83,11 @@ User extended data source
 [Workers](worker.md) execute the computation graph on the event data and send the results to a collector.
 
 
-### Collector
-[Collectors](collector.md) execute the collector graph on worker outputs and writes the results to the global store.
-Collectors filter and buffer worker outputs and reduce the data rate to the Heartbeat Rate.
+### Local Reducer, Global Reducer
+[Reducers](reducer.md) execute the computation graph on intermediate data and write the results to the Result store.
+Local Reducers reduce results from workers on a local cluster node.
+One or more Global Reducers reduce results across nodes from the Local Reducers.
+
 
 ### Graph Manager
 [Graph manager](graph_manager.md) manipulates and optimizes the computation graph.
@@ -106,7 +115,7 @@ This guarantees that the system will stay up unless both components fail simulta
 
 ### configuration changes
 A barrier should flow through the data path when a system configuration is changed, eg changing the setting of a motor.
-Data should not cross such a barrier, when we combine data in a fuzzy way (pick 1 of n paradigm).
+This can also serve as a data flush operation.
 
 
 ## Project Goals
@@ -132,10 +141,5 @@ Extensible - new clients, new GUI elements, new Computation Graph operations, ne
 Two versions, [one with Legion](legion_design.md) and [one with Redis](redis_design.md)
 
 Support Epics protocol to send data to clients, also for clients to make requests
-
-Support operations across time:
-"sum all", "pick 1", "sum 1" style calculations
-
-
 
 
