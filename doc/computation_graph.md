@@ -94,7 +94,7 @@ graph = workerGraph()
 AMI.submitGraphToManager(graph)
 
 while(True):
-  data = AMI.displayResult()
+  data = AMI.displayResult() # returns data from pub/sub results
   x = data['timestamp']
   y = normalizedWeighted(data['field0.mean.0'], data['normalizeField'], data['weightField'])
   print x, y
