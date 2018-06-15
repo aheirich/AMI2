@@ -1,17 +1,11 @@
-# Collector 
+# Local Reducer, Gloal Reducer 
 
-class Collector:
 
-The purpose of the collector is to apply the current collector graph to outputs from multiple Workers.
-The collector graph filters and buffers the data to reduce the data rate.
+The purpose of the reducers is to apply the computation graph to intermediate data from workers or other reducers.
 The results are written to the Result store.
 
-The collector graph is a python program.
-Clients add operations to the graph by submitting requests to the GraphManager.
-This can include arbitrary python code.
-
-class Collector accesses the graph definition from the Control store and updates its local copy when the graph changes.
-When the worker has new outputs the collector executes the collector graph with results written to the Result store.
-
-
-
+An example would be computing the sum of an image detector (e.g. CSPAD) during a time interval.
+Each worker computes a local sum according to the events that it sees within an interval.
+Within each node a Local Reducer obtains these local sums and combines them into a locally reduced sum for one cluster node.
+A Global Reducer combines these localls reduced sums to produce a global result.
+The client divides this sum by the number of terms in order to disply an average intensity.

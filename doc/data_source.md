@@ -3,7 +3,7 @@
 class DataSource:
 
 Every data source inherits from the DataSource base class.
-This class provides services to push telemetry data into the local store where they can be accessed by Workers.
+This class provides services to push event data into the local store where they can be accessed by Workers.
 It can optionally log data to files that can be replayed later by the FileDataSource.
 
 ## SharedMemoryDataSource

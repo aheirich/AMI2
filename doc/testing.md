@@ -6,7 +6,7 @@ Test suites will pass whether they are run on a single computer or on a cluster.
 
 ### Data flow throughput and scaling
 
-Implement file and live data sources, basic worker and collector, storage, and a file test client with a protocol handler.
+Implement file and live data sources, basic worker and reducers, storage, and a file test client with a protocol handler.
 Test data flow using canned data from a file data source.
 Test throughput and scaling using a live data source.
 

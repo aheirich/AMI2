@@ -24,7 +24,7 @@ A FileDataSource drives the system in offline mode.
 The system can be extended with new data sources (e.g. xyzDataSource).
 
 A resilient distributed in-memory storage system (E.g. Redis, Legion) is used for the control and data planes.
-Telemetry data resides in a local store within a node.
+Event data resides in a local store within a node.
 Computational results and control signals reside in a global store.
 Process heartbeats are monitored and failed processes are automatically restarted.
 Every process stores its volatile state in the resilient stores so it can reload that state when it restarts.
@@ -80,7 +80,7 @@ Replays sensor data stored in a file.
 User extended data source
 
 ### Worker
-[Workers](worker.md) execute the computation graph on the event data and send the results to a collector.
+[Workers](worker.md) execute the computation graph on the event data and send the results to a Local Reducer.
 
 
 ### Local Reducer, Global Reducer
@@ -107,9 +107,8 @@ The Experimental Physics and Industrial Control System (EPICS) is a DOE labs pro
 #### TCP/IP
 
 ### Robustness Monitor
-The [Robustness Monitor](robustness.md) monitors the state of the system and restarts failed processes.
-It is in turn monitored by another component.
-This guarantees that the system will stay up unless both components fail simultaneously.
+The [Robustness Monitor](robust.md) monitors the state of the system and restarts failed processes.
+
 
 ## Issues
 
