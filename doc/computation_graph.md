@@ -39,10 +39,16 @@ These components can invalidate a graph when it is discovered to be bad,
 and return to using the previously known good graph.
 
 
-## Server psueodcode
+## Pseudocode
+
+Following is pseudcode that outlines the structure of a simple client and server (worker).
+This pseudocode has been executed using a file as a replacement for the Control store.
+
+
+### Server psueodcode
 
 This is a simple server.
-It accepts a computation graph once and edecutes it repeatedly.
+It accepts a computation graph once and executes it repeatedly.
 
 
 ```
@@ -68,7 +74,7 @@ if True:
 
 ```
 
-## Client pseudocode
+### Client pseudocode
 
 This pseudocode includes graph creation which would normally be done by the graph manager.
 This client corresponds to an Env display from AMI-1 with a single data field.
