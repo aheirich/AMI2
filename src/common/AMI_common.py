@@ -39,39 +39,6 @@ class Graph(object):
 
 
 
-###
-### data point
-###
-
-class DataPoint(object):
-
-  def __init__(self, numDimensions=0):
-    self.numDimensions = numDimensions
-
-class ScalarDataPoint(DataPoint):
-  
-  def __init__(self):
-    super(ScalarDataPoint, self).__init__(0)
-    self.dimensions = []
-
-  def length(self):
-    return 1
-
-  def allocateData(self):
-    return numpy.zeros((1))
-
-class VectorDataPoint(DataPoint):
-  
-  def __init__(self, *args):
-    super(ScalarDataPoint, self).__init__(1)
-    self.dimensions = [ args[0] ]
-
-  def length(self):
-    return self.dimensions[0]
-
-  def allocateData(self):
-    return numpy.zeros(self.length())
-
 
 ###
 ### graph elements
@@ -82,7 +49,6 @@ class GraphElement(object):
   def __init__(self, *args, **kwargs):
     self.name = args[0]
     self.dimensions = []
-    self.dataType = ScalarDataPoint()
     #
     self.ROI = []
     self.filter = None
@@ -95,9 +61,6 @@ class GraphElement(object):
       for key, value in kwargs.iteritems():
         eval('self.' + key + ' = ' + value)
     self.data = self.allocateData()
-
-  def dataTypeIs(self, dataType):
-    self.dataType = dataType
 
   def allocateData(self):
     return numpy.zeros(self.shape())
@@ -138,7 +101,7 @@ class GraphElement(object):
     return self.name + '.' + prefix + '.' + str(roiIndex)
   
   def sumInROI(self, roi, data):
-    sum = self.dataType.allocateData()
+    sum = self.allocateData()
     if len(roi) > 1:
       for i in range(roi[0], roi[2] + 1):
         for j in range(roi[1], roi[3] + 1):
@@ -148,7 +111,7 @@ class GraphElement(object):
       return data
 
   def standardDeviationInROI(self, roi, data, mean, numPoints):
-    sumSquaredDifferences = self.dataType.allocateData()
+    sumSquaredDifferences = self.allocateData()
     for i in range(roi[0], roi[2]):
       for j in range(roi[1], roi[3]):
         difference = data[i][j] - mean
@@ -221,7 +184,7 @@ class Tensor1D(Tensor):
     super(Tensor1D, self).__init__(args[0], kwargs)
 
   def shape(self):
-    return (self.dimensions[0], self.dataType.length())
+    return (self.dimensions[0])
 
 class Vector(Tensor1D):
   
@@ -234,7 +197,7 @@ class Tensor2D(Tensor):
     super(Tensor2D, self).__init__(args[0], kwargs)
   
   def shape(self):
-    return (self.dimensions[0], self.dimensions[1], self.dataType.length())
+    return (self.dimensions[0], self.dimensions[1])
 
 class VectorField1D(Tensor1D):
   
