@@ -24,3 +24,6 @@ Interactions between components are accomplished through data passed in logical 
 
 How do protocols like Epics access data in and out of logical regions?
 
+Is a Logical Region the right way to pass data from data sources to workers?
+
+What is the right way to pass intermediate results from workers to local reducers?

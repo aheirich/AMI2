@@ -1,6 +1,6 @@
 # Robustness
 
-Robust to failures in processes, cluster nodes, recover from crash.
+The system is robust to failures in components or cluster nodes, and recovers automatically from a crash.
 
 All component behavior is based on state.
 Components write volatile state to the control store whenever it changes.

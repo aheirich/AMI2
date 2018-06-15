@@ -8,14 +8,16 @@ This page documents the existing clients from AMI-1.
 <img src="clients/AMI1_screenshots/PS-Mon_001.png">
 
 The initial UI lets the user choose from among several data sources
-(Env, LineFit, yag3).
+(Env, LineFit, Amitol, yag3).
 
 It also provides session control
 (Folder, Progress, Run, Throttle, Setup, Data, Find Plot).
 TODO: explain session control.
 
+All data is scalar.  There are no vector fields.
 
-### Env
+
+### Env (0-dimensional data)
 
 <img src="clients/AMI1_screenshots/Env_1d_histogram_UI_002.png">
 
@@ -62,7 +64,7 @@ The next images show the different modes:
 
 The only difference among these modes is the selection in the "Plot type" region.
 
-### LineFit
+### LineFit (two 0-dimensional data)
 
 LineFit has 4 plotting modes.  Every mode selects source channels, fit method, and plot type.
 The plots themselves look the same as for the Env modes.
@@ -87,7 +89,33 @@ The plots themselves look the same as for the Env modes.
 
 Each plot mode has different specifications.
 
-### yag3
+### AmoITOF (1-dimensional data)
+
+<img src="clients/AMI1_screenshots/AmoITOF-0_Acqiris-0_1_035.png">
+
+This is a waveform display.
+
+
+<table style="width:100%">
+<tr>
+<th>
+<img src="clients/AMI1_screenshots/AmoITOF-0_EdgeFinder_036.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/AmoITOF-0_Cursors_037.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/AmoITOF-0_CurveFit_038.png">
+</th>
+<th>
+<img src="clients/AMI1_screenshots/AmoITOF-0_FFT_039.png">
+</th>
+</tr>
+</table>
+
+Options include Edges, Cursors, Waveform Fit, Waveform FFT.
+
+### yag3 (2-dimensional data)
 
 
 <img src="clients/AMI1_screenshots/yag3_016.png">
@@ -219,28 +247,3 @@ In Map mode selecting "plot" brings up an image window.
 In Analysis mode selecting "plot" brings up a standard small plot.
 
 
-### AmoITOF
-
-<img src="clients/AMI1_screenshots/AmoITOF-0_Acqiris-0_1_035.png">
-
-This is a waveform display.
-
-
-<table style="width:100%">
-<tr>
-<th>
-<img src="clients/AMI1_screenshots/AmoITOF-0_EdgeFinder_036.png">
-</th>
-<th>
-<img src="clients/AMI1_screenshots/AmoITOF-0_Cursors_037.png">
-</th>
-<th>
-<img src="clients/AMI1_screenshots/AmoITOF-0_CurveFit_038.png">
-</th>
-<th>
-<img src="clients/AMI1_screenshots/AmoITOF-0_FFT_039.png">
-</th>
-</tr>
-</table>
-
-Options include Edges, Cursors, Waveform Fit, Waveform FFT.

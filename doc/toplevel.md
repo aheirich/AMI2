@@ -54,7 +54,7 @@ The Local Reducer applies the computation graph operations to the outputs from w
 One or more Global Reducers combine results from Local Reducers.
 Just like Local Reducers, Global Reducers apply the commutative operation of the computation graph to their inputs.
 They produce an output back into the Results store.
-
+While we anticipate that one Global Reducer will usually suffice, if the user-supplied code in the computation graph is slow then multiple Global Reducers may be required.
 
 Clients may be GUIs, web browsers, devices, or file proxies.
 Clients requests computations from the Graph Manager and subscribe to result channels from the global store.
@@ -90,9 +90,9 @@ One or more Global Reducers reduce results across nodes from the Local Reducers.
 
 
 ### Graph Manager
-[Graph manager](graph_manager.md) manipulates and optimizes the computation graph.
+[Graph manager](graph_manager.md) maintains the computation graph.
 May be replicated (not distributed) in a large scale system.
-The graph definition is stored in the global store.
+The graph definition is stored in the global Control store.
 
 ### Client
 [Client processes](client.md) acquire data for visualization or control.
