@@ -4,7 +4,7 @@
 
 In the Redis design all of the components are separate processes.
 The stores are implemented by the distributed resilient in-memory database Redis.
-A local telemetry Redis runs privately on each node to support telemtry processing.
+A local Redis runs privately on each node to support telemtry processing.
 A global distributed Redis runs across the cluster to provide data to manage Control and Results.
 
 Telemetry data is provided from a data source to the telemetry Redis.

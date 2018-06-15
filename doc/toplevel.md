@@ -9,17 +9,17 @@ and a [Redis based design](redis_design.md).
 The reason for two designs is that Legion is currently an experimental open source programming platform without
 a guarantee of long term support.
 The Redis design will incorporate existing stable open source software packages where appropriate.
-
+The designs differ only in the back-end data processing pipeline.
 [Clients](client.md) interact with the rest of the system through communication protocols and
-are oblivious to the difference between the two designs.
+are oblivious to the difference between the two backends.
 
 [Testing](testing.md) is described here.
 
 ## Data flow
 Please see Figure 1: system data flow.
 
-Frames of instrument telemetry enter the system through a Data Source.
-At SLAC the SharedMemoryDataSource receives XTC telemetry from the Data Acquisition system delivered by RDMA.
+Frames of event data enter the system through a Data Source.
+At SLAC the SharedMemoryDataSource receives XTC events from the Data Acquisition system delivered by RDMA.
 A FileDataSource drives the system in offline mode.
 The system can be extended with new data sources (e.g. xyzDataSource).
 
@@ -27,13 +27,13 @@ A resilient distributed in-memory storage system (E.g. Redis, Legion) is used fo
 Telemetry data resides in a local store within a node.
 Computational results and control signals reside in a global store.
 Process heartbeats are monitored and failed processes are automatically restarted.
-The process stores all volatile state in the resilient stores so it can reload that state when it restarts.
+Every process stores its volatile state in the resilient stores so it can reload that state when it restarts.
 
-Each telemetry frame is processed by a different worker.
+Each event is processed by a different worker.
 Each cluster node supports multiple workers, typically one per core.
 The cluster can be scaled to support arbitrarily high data rates.
 
-A worker processes a telemetry frame by feeding the data to a computation graph which is a series of transformations.
+A worker processes an event by feeding the data to a computation graph which is a series of transformations.
 The computation graph is defined by the Graph Manager according to requests from clients.
 It is implemented as a python program that is assembled and optimized by the Graph Manager.
 The program can compute sums of data across frames.
@@ -64,7 +64,7 @@ Clients requests computations from the Graph Manager and subscribe to result cha
 Data delivery events from sensors, distributed round-robin to nodes via Infiniband RDMA.
 
 ### DataSource
-[DataSources](data_source.md) provide telemetry data to the system.
+[DataSources](data_source.md) provide event data to the system.
 #### SharedMemoryDataSource
 Transfers incoming sensor data to the local store.
 #### FileDataSource
@@ -73,7 +73,7 @@ Replays sensor data stored in a file.
 User extended data source
 
 ### Worker
-[Workers](worker.md) execute the computation graph on the telemetry data and send the results to a collector.
+[Workers](worker.md) execute the computation graph on the event data and send the results to a collector.
 
 
 ### Collector

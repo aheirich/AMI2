@@ -156,6 +156,7 @@ class GraphElement(object):
     return math.sqrt(sumSquaredDifferences / (numPoints - 1))
 
 
+# TODO execute user specified worker computation here? do we need it?
   def computation(self, data, roi, roiIndex):
     result = {}
     if self.sum or self.mean or self.standardDeviation:
