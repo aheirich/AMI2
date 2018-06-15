@@ -41,14 +41,15 @@ and return to using the previously known good graph.
 
 ## Pseudocode
 
-Following is pseudcode that outlines the structure of a simple client and server (worker).
+Following is pseudocode that outlines the structure of a simple client and server (worker).
 This pseudocode has been executed using a file as a replacement for the Control store.
 
 
-### Server psueodcode
+### Server pseudocode
 
-This is a simple server.
+This is a simple server example.
 It accepts a computation graph once and executes it repeatedly.
+This corresponds to a Worker.
 
 
 ```
@@ -110,7 +111,7 @@ while(True):
 
 ### Base class
 
-Here is a common class that undlies the client and server code.
+Here is a common class that underlies the client and server code.
 
 ```
 import numpy
